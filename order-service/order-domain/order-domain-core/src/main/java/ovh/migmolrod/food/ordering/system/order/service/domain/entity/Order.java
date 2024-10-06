@@ -23,6 +23,22 @@ public class Order extends AggregateRoot<OrderId> {
 	private OrderStatus status;
 	private List<String> failureMessages;
 
+	private Order(Builder builder) {
+		super.setId(builder.orderId);
+		customerId = builder.customerId;
+		restaurantId = builder.restaurantId;
+		deliveryAddress = builder.deliveryAddress;
+		price = builder.price;
+		items = builder.items;
+		trackingId = builder.trackingId;
+		status = builder.status;
+		failureMessages = builder.failureMessages;
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public void initializeOrder() {
 		setId(new OrderId(UUID.randomUUID()));
 		trackingId = new TrackingId(UUID.randomUUID());
@@ -56,13 +72,15 @@ public class Order extends AggregateRoot<OrderId> {
 		}).reduce(Money.ZERO, Money::add);
 
 		if (!price.equals(orderItemsTotal)) {
-			throw new OrderDomainException(String.format("Total price (%s) does not match the sum of all items prices (%s)", price, orderItemsTotal));
+			throw new OrderDomainException(String.format("Total price (%s) does not match the sum of all items prices (%s)",
+					price, orderItemsTotal));
 		}
 	}
 
 	private void validateItemPrice(OrderItem orderItem) {
 		if (!orderItem.isPriceValid()) {
-			throw new OrderDomainException(String.format("Order item price (%s) is not valid for product %s", orderItem.getPrice().getAmount(), orderItem.getProduct().getId().getValue()));
+			throw new OrderDomainException(String.format("Order item price (%s) is not valid for product %s",
+					orderItem.getPrice().getAmount(), orderItem.getProduct().getId().getValue()));
 		}
 	}
 
@@ -73,29 +91,31 @@ public class Order extends AggregateRoot<OrderId> {
 		}
 	}
 
-	private void pay() {
+	public void pay() {
 		if (status != OrderStatus.PENDING) {
 			throw new OrderDomainException(String.format("Order %s is not in correct state for payment operation", getId()));
 		}
 		status = OrderStatus.PAID;
 	}
 
-	private void approve() {
+	public void approve() {
 		if (status != OrderStatus.PAID) {
-			throw new OrderDomainException(String.format("Order %s is not in correct state for approval operation", getId()));
+			throw new OrderDomainException(String.format("Order %s is not in correct state for approval operation",
+					getId()));
 		}
 		status = OrderStatus.APPROVED;
 	}
 
-	private void initCancel(List<String> failureMessages) {
+	public void initCancel(List<String> failureMessages) {
 		if (status != OrderStatus.PAID) {
-			throw new OrderDomainException(String.format("Order %s is not in correct state for init cancel operation", getId()));
+			throw new OrderDomainException(String.format("Order %s is not in correct state for init cancel operation",
+					getId()));
 		}
 		status = OrderStatus.CANCELLING;
 		updateFailureMessages(failureMessages);
 	}
 
-	private void cancel(List<String> failureMessages) {
+	public void cancel(List<String> failureMessages) {
 		if (status != OrderStatus.CANCELLING && status != OrderStatus.PENDING) {
 			throw new OrderDomainException(String.format("Order %s is not in correct state for cancel operation", getId()));
 		}
@@ -110,22 +130,6 @@ public class Order extends AggregateRoot<OrderId> {
 		if (this.failureMessages == null) {
 			this.failureMessages = failureMessages;
 		}
-	}
-
-	private Order(Builder builder) {
-		super.setId(builder.orderId);
-		customerId = builder.customerId;
-		restaurantId = builder.restaurantId;
-		deliveryAddress = builder.deliveryAddress;
-		price = builder.price;
-		items = builder.items;
-		trackingId = builder.trackingId;
-		status = builder.status;
-		failureMessages = builder.failureMessages;
-	}
-
-	public static Builder builder() {
-		return new Builder();
 	}
 
 	public CustomerId getCustomerId() {
