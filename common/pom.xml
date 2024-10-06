@@ -6,16 +6,15 @@
 
 	<parent>
 		<groupId>ovh.migmolrod.food.ordering.system</groupId>
-		<artifactId>order-service</artifactId>
+		<artifactId>food-ordering-system</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>order-domain</artifactId>
+	<artifactId>common</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>order-domain-core</module>
-		<module>order-application-service</module>
+		<module>common-domain</module>
 	</modules>
 
 	<properties>
