@@ -73,6 +73,45 @@ public class Order extends AggregateRoot<OrderId> {
 		}
 	}
 
+	private void pay() {
+		if (status != OrderStatus.PENDING) {
+			throw new OrderDomainException(String.format("Order %s is not in correct state for payment operation", getId()));
+		}
+		status = OrderStatus.PAID;
+	}
+
+	private void approve() {
+		if (status != OrderStatus.PAID) {
+			throw new OrderDomainException(String.format("Order %s is not in correct state for approval operation", getId()));
+		}
+		status = OrderStatus.APPROVED;
+	}
+
+	private void initCancel(List<String> failureMessages) {
+		if (status != OrderStatus.PAID) {
+			throw new OrderDomainException(String.format("Order %s is not in correct state for init cancel operation", getId()));
+		}
+		status = OrderStatus.CANCELLING;
+		updateFailureMessages(failureMessages);
+	}
+
+	private void cancel(List<String> failureMessages) {
+		if (status != OrderStatus.CANCELLING && status != OrderStatus.PENDING) {
+			throw new OrderDomainException(String.format("Order %s is not in correct state for cancel operation", getId()));
+		}
+		status = OrderStatus.CANCELLED;
+		updateFailureMessages(failureMessages);
+	}
+
+	private void updateFailureMessages(List<String> failureMessages) {
+		if (this.failureMessages != null && failureMessages != null) {
+			this.failureMessages.addAll(failureMessages.stream().filter(message -> !message.isEmpty()).toList());
+		}
+		if (this.failureMessages == null) {
+			this.failureMessages = failureMessages;
+		}
+	}
+
 	private Order(Builder builder) {
 		super.setId(builder.orderId);
 		customerId = builder.customerId;
