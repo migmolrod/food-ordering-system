@@ -16,7 +16,11 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <properties>
+	<modules>
+		<module>order-service</module>
+	</modules>
+
+	<properties>
 	  <!-- GENERAL SETTINGS -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	  <!-- PLUGIN SETTINGS -->
@@ -26,6 +30,41 @@
 	  <!-- PLUGIN VERSIONS -->
 	  <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
   </properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- ORDER DOMAIN CORE -->
+			<dependency>
+				<groupId>ovh.migmolrod.food-ordering-system</groupId>
+				<artifactId>order-domain-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- ORDER APPLICATION SERVICE -->
+			<dependency>
+				<groupId>ovh.migmolrod.food-ordering-system</groupId>
+				<artifactId>order-application-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- ORDER APPLICATION -->
+			<dependency>
+				<groupId>ovh.migmolrod.food-ordering-system</groupId>
+				<artifactId>order-application</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- ORDER DATA -->
+			<dependency>
+				<groupId>ovh.migmolrod.food-ordering-system</groupId>
+				<artifactId>order-data</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- ORDER MESSAGING -->
+			<dependency>
+				<groupId>ovh.migmolrod.food-ordering-system</groupId>
+				<artifactId>order-messaging</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
