@@ -12,6 +12,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class OrderItem {
+
 	@NotNull
 	private final UUID productId;
 	@NotNull
@@ -20,4 +21,5 @@ public class OrderItem {
 	private final BigDecimal price;
 	@NotNull
 	private final BigDecimal subTotal;
+
 }
