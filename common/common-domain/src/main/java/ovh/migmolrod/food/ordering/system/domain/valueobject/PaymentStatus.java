@@ -1,9 +1,7 @@
 package ovh.migmolrod.food.ordering.system.domain.valueobject;
 
-public enum OrderStatus {
-	PENDING,
-	PAID,
-	APPROVED,
-	CANCELLING,
+public enum PaymentStatus {
+	COMPLETED,
 	CANCELLED,
+	FAILED,
 }
