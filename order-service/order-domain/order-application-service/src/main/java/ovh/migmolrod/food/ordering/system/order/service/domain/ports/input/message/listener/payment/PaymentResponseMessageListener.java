@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.domain.ports.input.service.message.listener.payment;
+package ovh.migmolrod.food.ordering.system.order.service.domain.ports.input.message.listener.payment;
 
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 

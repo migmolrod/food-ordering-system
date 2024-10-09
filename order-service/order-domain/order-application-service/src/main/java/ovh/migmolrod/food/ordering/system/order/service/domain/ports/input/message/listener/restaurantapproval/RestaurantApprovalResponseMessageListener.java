@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.domain.ports.input.service.message.listener.restaurantapproval;
+package ovh.migmolrod.food.ordering.system.order.service.domain.ports.input.message.listener.restaurantapproval;
 
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
 
