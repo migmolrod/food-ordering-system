@@ -14,7 +14,6 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Product;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Restaurant;
 import ovh.migmolrod.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
