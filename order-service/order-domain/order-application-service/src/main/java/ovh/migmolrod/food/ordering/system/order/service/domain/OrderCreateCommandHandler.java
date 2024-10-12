@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.domain.helper.create;
+package ovh.migmolrod.food.ordering.system.order.service.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -32,7 +32,7 @@ public class OrderCreateCommandHandler {
 
 		orderCreatedPaymentRequestMessagePublisher.publish(orderCreatedEvent);
 
-		return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder());
+		return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(), "Order created successfully");
 	}
 
 }

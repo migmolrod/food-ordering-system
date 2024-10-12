@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.domain.helper.track;
+package ovh.migmolrod.food.ordering.system.order.service.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
