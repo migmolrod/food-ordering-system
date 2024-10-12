@@ -8,6 +8,7 @@ import ovh.migmolrod.food.ordering.system.domain.valueobject.RestaurantId;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.OrderAddress;
+import ovh.migmolrod.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.OrderItem;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Product;
@@ -42,6 +43,13 @@ public class OrderDataMapper {
 				.build();
 	}
 
+	public TrackOrderResponse orderToTrackResponse(Order order) {
+		return TrackOrderResponse.builder()
+				.orderTrackingId(order.getTrackingId().getValue())
+				.orderStatus(order.getStatus())
+				.build();
+	}
+
 	public CreateOrderResponse orderToCreateOrderResponse(Order order) {
 		return CreateOrderResponse.builder()
 				.orderTrackingId(order.getTrackingId().getValue())
@@ -63,12 +71,12 @@ public class OrderDataMapper {
 	) {
 		return orderItems.stream()
 				.map(orderItem ->
-					OrderItem.builder()
-							.product(new Product(new ProductId(orderItem.getProductId())))
-							.price(new Money(orderItem.getPrice()))
-							.quantity(orderItem.getQuantity())
-							.subTotal(new Money(orderItem.getSubTotal()))
-							.build()
+						OrderItem.builder()
+								.product(new Product(new ProductId(orderItem.getProductId())))
+								.price(new Money(orderItem.getPrice()))
+								.quantity(orderItem.getQuantity())
+								.subTotal(new Money(orderItem.getSubTotal()))
+								.build()
 				).toList();
 	}
 

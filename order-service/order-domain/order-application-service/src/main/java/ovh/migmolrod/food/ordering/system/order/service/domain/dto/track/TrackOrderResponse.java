@@ -6,8 +6,8 @@ import lombok.Getter;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderStatus;
 
 import javax.validation.constraints.NotNull;
-import java.rmi.server.UID;
 import java.util.List;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -15,7 +15,7 @@ import java.util.List;
 public class TrackOrderResponse {
 
 	@NotNull
-	private final UID orderTrackingId;
+	private final UUID orderTrackingId;
 	@NotNull
 	private final OrderStatus orderStatus;
 	private final List<String> failureMessages;
