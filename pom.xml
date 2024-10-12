@@ -31,7 +31,7 @@
 	  <!-- PLUGIN VERSIONS -->
 	  <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
 		<!-- DEPENDENCIES VERSIONS -->
-		<mokito-core.version>4.3.1</mokito-core.version>
+		<mockito-core.version>4.3.1</mockito-core.version>
   </properties>
 
 	<dependencies>
