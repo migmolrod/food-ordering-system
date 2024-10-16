@@ -73,7 +73,7 @@ public class Order extends AggregateRoot<OrderId> {
 
 		if (!price.equals(orderItemsTotal)) {
 			throw new OrderDomainException(String.format("Total price (%s) does not match the sum of all items prices (%s)",
-					price, orderItemsTotal));
+					price.getAmount(), orderItemsTotal.getAmount()));
 		}
 	}
 
