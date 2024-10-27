@@ -5,13 +5,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>ovh.migmolrod.food-ordering-system</groupId>
+		<groupId>ovh.migmolrod.food.ordering.system</groupId>
 		<artifactId>food-ordering-system</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>order-service</artifactId>
 	<packaging>pom</packaging>
+
+	<name>Order Service</name>
+	<description>DDD microservice that contains order submodules</description>
 
 	<modules>
 		<module>order-domain</module>

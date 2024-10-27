@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>ovh.migmolrod.food.ordering.system</groupId>
+		<artifactId>kafka</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>kafka-consumer</artifactId>
+
+	<name>Kafka Consumer</name>
+	<description>Kafka submodule that holds consumer classes</description>
+
+	<dependencies>
+		<!-- Internal dependencies -->
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>kafka-config-data</artifactId>
+		</dependency>
+		<!-- External dependencies -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.confluent</groupId>
+			<artifactId>kafka-avro-serializer</artifactId>
+		</dependency>
+	</dependencies>
+</project>
