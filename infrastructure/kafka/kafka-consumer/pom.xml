@@ -14,4 +14,20 @@
 	<name>Kafka Consumer</name>
 	<description>Kafka submodule that holds consumer classes</description>
 
+	<dependencies>
+		<!-- Internal dependencies -->
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>kafka-config-data</artifactId>
+		</dependency>
+		<!-- External dependencies -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.confluent</groupId>
+			<artifactId>kafka-avro-serializer</artifactId>
+		</dependency>
+	</dependencies>
 </project>
