@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ovh.migmolrod.food.ordering.system.domain.exception.DomainException;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
+import ovh.migmolrod.food.ordering.system.order.service.domain.exception.OrderNotFoundException;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import ovh.migmolrod.food.ordering.system.order.service.domain.valueobject.TrackingId;
 
@@ -27,7 +28,7 @@ public class OrderTrackHelper {
 		if (order.isEmpty()) {
 			String errorMessage = String.format("Order with tracking id '%s' could not be found", trackingId.getValue());
 			log.warn(errorMessage);
-			throw new DomainException(errorMessage);
+			throw new OrderNotFoundException(errorMessage);
 		}
 
 		return order.get();

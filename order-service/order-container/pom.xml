@@ -25,10 +25,6 @@
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-application</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>order-data</artifactId>
 		</dependency>
 		<dependency>

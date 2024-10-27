@@ -13,6 +13,9 @@
 	<artifactId>order-service</artifactId>
 	<packaging>pom</packaging>
 
+	<name>Order Service</name>
+	<description>DDD microservice that contains order submodules</description>
+
 	<modules>
 		<module>order-domain</module>
 		<module>order-application</module>
