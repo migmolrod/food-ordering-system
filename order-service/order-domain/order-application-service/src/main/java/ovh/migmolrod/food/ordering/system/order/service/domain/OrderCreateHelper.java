@@ -9,6 +9,7 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Customer;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Restaurant;
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
+import ovh.migmolrod.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import ovh.migmolrod.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
@@ -59,7 +60,7 @@ public class OrderCreateHelper {
 		if (customer.isEmpty()) {
 			String errorMessage = String.format("Customer with id %s not found", customerId);
 			log.warn(errorMessage);
-			throw new DomainException(errorMessage);
+			throw new OrderDomainException(errorMessage);
 		}
 	}
 
@@ -70,7 +71,7 @@ public class OrderCreateHelper {
 		if (restaurantOptional.isEmpty()) {
 			String errorMessage = String.format("Restaurant with id %s not found", restaurant.getId());
 			log.warn(errorMessage);
-			throw new DomainException(errorMessage);
+			throw new OrderDomainException(errorMessage);
 		}
 
 		return restaurantOptional.get();
@@ -81,7 +82,7 @@ public class OrderCreateHelper {
 		if (savedOrder == null) {
 			String errorMessage = String.format("Order for restaurant %s could not be saved", order.getRestaurantId());
 			log.warn(errorMessage);
-			throw new DomainException(errorMessage);
+			throw new OrderDomainException(errorMessage);
 		}
 		log.info("Order has ben saved with ID {}", savedOrder.getId().getValue());
 
