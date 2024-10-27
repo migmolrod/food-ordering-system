@@ -5,13 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ovh.migmolrod.food.ordering.system.order.service.application.exception.ErrorDto;
+import ovh.migmolrod.food.ordering.system.application.ErrorDto;
+import ovh.migmolrod.food.ordering.system.application.handler.GlobalExceptionHandler;
 import ovh.migmolrod.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import ovh.migmolrod.food.ordering.system.order.service.domain.exception.OrderNotFoundException;
 
 @Slf4j
 @RestControllerAdvice
-public class OrderGlobalExceptionHandler {
+public class OrderGlobalExceptionHandler extends GlobalExceptionHandler {
 
 	@ExceptionHandler(OrderDomainException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

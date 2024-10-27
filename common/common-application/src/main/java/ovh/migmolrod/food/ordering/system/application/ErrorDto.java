@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.application.exception;
+package ovh.migmolrod.food.ordering.system.application;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
