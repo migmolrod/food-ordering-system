@@ -12,7 +12,7 @@
 	<artifactId>kafka-config-data</artifactId>
 
 	<name>Kafka Config Data</name>
-	<description>Kafka submodule that holds configuration classes.</description>
+	<description>Kafka submodule that holds configuration classes</description>
 
 	<dependencies>
 		<dependency>

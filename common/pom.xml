@@ -13,8 +13,12 @@
 	<artifactId>common</artifactId>
 	<packaging>pom</packaging>
 
+	<name>Common</name>
+	<description>Common submodule, holding common classes and interfaces</description>
+
 	<modules>
 		<module>common-domain</module>
+		<module>common-application</module>
 	</modules>
 
 	<properties>

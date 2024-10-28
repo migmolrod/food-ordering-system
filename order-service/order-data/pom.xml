@@ -12,6 +12,9 @@
 
 	<artifactId>order-data</artifactId>
 
+	<name>Order Data Access</name>
+	<description>Implementation of output port for Order microservice database access</description>
+
 	<properties>
 	</properties>
 
@@ -29,6 +32,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+			<version>42.7.2</version>
 		</dependency>
 	</dependencies>
 

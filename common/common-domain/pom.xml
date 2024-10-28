@@ -11,6 +11,9 @@
 
 	<artifactId>common-domain</artifactId>
 
+	<name>Common Domain</name>
+	<description>Common Domain submodule, holding domain classes used by several microservices</description>
+
 	<properties>
 	</properties>
 
