@@ -12,6 +12,9 @@
 
 	<artifactId>order-messaging</artifactId>
 
+	<name>Order Messaging</name>
+	<description>Implementation of output port for Order microservice messaging (Kafka)</description>
+
 	<properties>
 	</properties>
 

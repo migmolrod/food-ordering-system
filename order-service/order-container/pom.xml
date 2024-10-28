@@ -11,6 +11,9 @@
 
 	<artifactId>order-container</artifactId>
 
+	<name>Order Container</name>
+	<description>Container for Order microservice</description>
+
 	<properties>
 	</properties>
 

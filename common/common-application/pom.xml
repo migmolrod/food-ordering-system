@@ -11,6 +11,9 @@
 
 	<artifactId>common-application</artifactId>
 
+	<name>Common Application</name>
+	<description>Common Application submodule, holding application classes used by several microservices</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

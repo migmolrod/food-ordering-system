@@ -20,10 +20,9 @@
 	<description>Microservices + Kafka system for food ordering, handling customer, restaurants, etc.</description>
 
 	<modules>
-		<module>order-service</module>
 		<module>common</module>
 		<module>infrastructure</module>
-		<module>infrastructure/kafka</module>
+		<module>order-service</module>
 	</modules>
 
 	<properties>

@@ -11,6 +11,9 @@
 
 	<artifactId>order-domain-core</artifactId>
 
+	<name>Order Domain Core</name>
+	<description>Domain core of Order microservice (ports)</description>
+
 	<properties>
 	</properties>
 

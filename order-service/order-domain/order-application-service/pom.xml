@@ -11,6 +11,9 @@
 
 	<artifactId>order-application-service</artifactId>
 
+	<name>Order Application Service</name>
+	<description>Implementation of input port for Order microservice application service (use cases)</description>
+
 	<properties>
 	</properties>
 

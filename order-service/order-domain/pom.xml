@@ -13,9 +13,14 @@
 	<artifactId>order-domain</artifactId>
 	<packaging>pom</packaging>
 
+	<name>Order Domain</name>
+	<description>
+		Domain layer of Order microservice that holds domain core and application service (input port)
+	</description>
+
 	<modules>
-		<module>order-domain-core</module>
 		<module>order-application-service</module>
+		<module>order-domain-core</module>
 	</modules>
 
 	<properties>

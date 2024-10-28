@@ -18,4 +18,8 @@
 		Infrastructure submodule, holding Kafka and more submodules to handle Saga, Outbox and CQRS patterns
 	</description>
 
+	<modules>
+		<module>kafka</module>
+	</modules>
+
 </project>
