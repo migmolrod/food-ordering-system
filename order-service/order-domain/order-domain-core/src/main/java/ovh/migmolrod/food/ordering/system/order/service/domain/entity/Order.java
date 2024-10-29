@@ -13,17 +13,15 @@ import java.util.UUID;
 
 public class Order extends AggregateRoot<OrderId> {
 
+	public static final String FAILURE_MESSAGE_DELIMITER = ",";
 	private final CustomerId customerId;
 	private final RestaurantId restaurantId;
 	private final StreetAddress deliveryAddress;
 	private final Money price;
 	private final List<OrderItem> items;
-
 	private TrackingId trackingId;
 	private OrderStatus status;
 	private List<String> failureMessages;
-
-	public static final String FAILURE_MESSAGE_DELIMITER = ",";
 
 	private Order(Builder builder) {
 		super.setId(builder.orderId);
@@ -74,7 +72,8 @@ public class Order extends AggregateRoot<OrderId> {
 		}).reduce(Money.ZERO, Money::add);
 
 		if (!price.equals(orderItemsTotal)) {
-			throw new OrderDomainException(String.format("Total price (%s) does not match the sum of all items prices (%s)",
+			throw new OrderDomainException(String.format("Total price (%s) does not match the sum of all items prices " +
+							"(%s)",
 					price.getAmount(), orderItemsTotal.getAmount()));
 		}
 	}
@@ -95,7 +94,8 @@ public class Order extends AggregateRoot<OrderId> {
 
 	public void pay() {
 		if (status != OrderStatus.PENDING) {
-			throw new OrderDomainException(String.format("Order %s is not in correct state for payment operation", getId()));
+			throw new OrderDomainException(String.format("Order %s is not in correct state for payment operation",
+					getId()));
 		}
 		status = OrderStatus.PAID;
 	}
@@ -119,7 +119,8 @@ public class Order extends AggregateRoot<OrderId> {
 
 	public void cancel(List<String> failureMessages) {
 		if (status != OrderStatus.CANCELLING && status != OrderStatus.PENDING) {
-			throw new OrderDomainException(String.format("Order %s is not in correct state for cancel operation", getId()));
+			throw new OrderDomainException(String.format("Order %s is not in correct state for cancel operation",
+					getId()));
 		}
 		status = OrderStatus.CANCELLED;
 		updateFailureMessages(failureMessages);

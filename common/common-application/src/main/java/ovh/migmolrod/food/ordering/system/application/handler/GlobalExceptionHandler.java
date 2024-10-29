@@ -10,8 +10,6 @@ import ovh.migmolrod.food.ordering.system.application.ErrorDto;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j

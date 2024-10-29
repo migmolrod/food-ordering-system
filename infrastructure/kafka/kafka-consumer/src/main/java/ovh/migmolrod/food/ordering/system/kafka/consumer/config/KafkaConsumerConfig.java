@@ -8,7 +8,6 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import ovh.migmolrod.food.ordering.system.kafka.config.data.KafkaConfigData;
 import ovh.migmolrod.food.ordering.system.kafka.config.data.KafkaConsumerConfigData;

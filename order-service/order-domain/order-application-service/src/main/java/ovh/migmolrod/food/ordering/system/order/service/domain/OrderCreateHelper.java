@@ -3,7 +3,6 @@ package ovh.migmolrod.food.ordering.system.order.service.domain;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ovh.migmolrod.food.ordering.system.domain.exception.DomainException;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Customer;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
