@@ -13,12 +13,12 @@ public class RestaurantApprovalResponseMessageListenerImpl implements Restaurant
 
 	@Override
 	public void orderApproved(RestaurantApprovalResponse restaurantApprovalResponse) {
-
+		// TODO in saga pattern implementation
 	}
 
 	@Override
 	public void orderRejected(RestaurantApprovalResponse restaurantApprovalResponse) {
-
+		// TODO in saga pattern implementation
 	}
 
 }
