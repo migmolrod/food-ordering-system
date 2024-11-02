@@ -5,7 +5,6 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
 
 import javax.annotation.Nonnull;
 

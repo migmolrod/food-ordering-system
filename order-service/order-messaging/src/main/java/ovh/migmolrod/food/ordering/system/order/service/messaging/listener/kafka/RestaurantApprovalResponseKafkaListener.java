@@ -51,14 +51,16 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
 
 		messages.forEach(restaurantApprovalResponseAvroModel -> {
 			if (OrderApprovalStatus.APPROVED.equals(restaurantApprovalResponseAvroModel.getOrderApprovalStatus())) {
-				log.info("Processing approved order for order id: {}", restaurantApprovalResponseAvroModel.getOrderId());
+				log.info("Processing approved order for order id: {}",
+						restaurantApprovalResponseAvroModel.getOrderId());
 				restaurantApprovalResponseMessageListener.orderApproved(
 						orderMessagingDataMapper.restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(
 								restaurantApprovalResponseAvroModel
 						)
 				);
 			} else if (OrderApprovalStatus.REJECTED.equals(restaurantApprovalResponseAvroModel.getOrderApprovalStatus())) {
-				log.info("Processing rejected order for order id: {}", restaurantApprovalResponseAvroModel.getOrderId());
+				log.info("Processing rejected order for order id: {}",
+						restaurantApprovalResponseAvroModel.getOrderId());
 				restaurantApprovalResponseMessageListener.orderRejected(
 						orderMessagingDataMapper.restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(
 								restaurantApprovalResponseAvroModel

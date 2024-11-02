@@ -72,16 +72,17 @@ public class Order extends AggregateRoot<OrderId> {
 		}).reduce(Money.ZERO, Money::add);
 
 		if (!price.equals(orderItemsTotal)) {
-			throw new OrderDomainException(String.format("Total price (%s) does not match the sum of all items prices " +
-							"(%s)",
-					price.getAmount(), orderItemsTotal.getAmount()));
+			throw new OrderDomainException(
+					String.format("Total price (%s) does not match the sum of all items prices (%s)",
+							price.getAmount(), orderItemsTotal.getAmount()));
 		}
 	}
 
 	private void validateItemPrice(OrderItem orderItem) {
 		if (!orderItem.isPriceValid()) {
-			throw new OrderDomainException(String.format("Order item price (%s) is not valid for product %s",
-					orderItem.getPrice().getAmount(), orderItem.getProduct().getId().getValue()));
+			throw new OrderDomainException(
+					String.format("Order item price (%s) is not valid for product %s",
+							orderItem.getPrice().getAmount(), orderItem.getProduct().getId().getValue()));
 		}
 	}
 
@@ -94,24 +95,27 @@ public class Order extends AggregateRoot<OrderId> {
 
 	public void pay() {
 		if (status != OrderStatus.PENDING) {
-			throw new OrderDomainException(String.format("Order %s is not in correct state for payment operation",
-					getId()));
+			throw new OrderDomainException(
+					String.format("Order %s is not in correct state for payment operation",
+							getId()));
 		}
 		status = OrderStatus.PAID;
 	}
 
 	public void approve() {
 		if (status != OrderStatus.PAID) {
-			throw new OrderDomainException(String.format("Order %s is not in correct state for approval operation",
-					getId()));
+			throw new OrderDomainException(
+					String.format("Order %s is not in correct state for approval operation",
+							getId()));
 		}
 		status = OrderStatus.APPROVED;
 	}
 
 	public void initCancel(List<String> failureMessages) {
 		if (status != OrderStatus.PAID) {
-			throw new OrderDomainException(String.format("Order %s is not in correct state for init cancel operation",
-					getId()));
+			throw new OrderDomainException(
+					String.format("Order %s is not in correct state for init cancel operation",
+							getId()));
 		}
 		status = OrderStatus.CANCELLING;
 		updateFailureMessages(failureMessages);
@@ -119,8 +123,9 @@ public class Order extends AggregateRoot<OrderId> {
 
 	public void cancel(List<String> failureMessages) {
 		if (status != OrderStatus.CANCELLING && status != OrderStatus.PENDING) {
-			throw new OrderDomainException(String.format("Order %s is not in correct state for cancel operation",
-					getId()));
+			throw new OrderDomainException(
+					String.format("Order %s is not in correct state for cancel operation",
+							getId()));
 		}
 		status = OrderStatus.CANCELLED;
 		updateFailureMessages(failureMessages);
