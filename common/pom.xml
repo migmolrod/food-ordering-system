@@ -21,7 +21,4 @@
 		<module>common-application</module>
 	</modules>
 
-	<properties>
-	</properties>
-
 </project>

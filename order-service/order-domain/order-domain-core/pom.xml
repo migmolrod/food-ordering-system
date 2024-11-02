@@ -14,9 +14,6 @@
 	<name>Order Domain Core</name>
 	<description>Domain core of Order microservice (ports)</description>
 
-	<properties>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>

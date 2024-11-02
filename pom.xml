@@ -24,6 +24,7 @@
 		<module>infrastructure</module>
 		<module>order-service</module>
 		<module>customer-service</module>
+		<module>payment-service</module>
 	</modules>
 
 	<properties>
@@ -84,10 +85,10 @@
 				<artifactId>order-domain-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- ORDER APPLICATION SERVICE -->
+			<!-- ORDER DOMAIN SERVICE -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
-				<artifactId>order-application-service</artifactId>
+				<artifactId>order-domain-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- ORDER APPLICATION -->
@@ -106,6 +107,35 @@
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>order-messaging</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- ################################################################ -->
+			<!-- PAYMENT SERVICE -->
+			<!-- ################################################################ -->
+
+			<!-- PAYMENT DOMAIN CORE -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>payment-domain-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- PAYMENT DOMAIN SERVICE -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>payment-domain-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- PAYMENT DATA -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>payment-data</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- PAYMENT MESSAGING -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>payment-messaging</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>ovh.migmolrod.food.ordering.system</groupId>
-		<artifactId>order-service</artifactId>
+		<artifactId>payment-service</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>order-container</artifactId>
+	<artifactId>payment-container</artifactId>
 
-	<name>Order Container</name>
-	<description>Container for Order microservice</description>
+	<name>Payment Container</name>
+	<description>Container for Payment microservice</description>
 
 	<dependencies>
 		<!-- Internal dependencies -->
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-domain-core</artifactId>
+			<artifactId>payment-domain-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-domain-service</artifactId>
+			<artifactId>payment-domain-service</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-application</artifactId>
+			<artifactId>payment-data</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-data</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-messaging</artifactId>
+			<artifactId>payment-messaging</artifactId>
 		</dependency>
 		<!-- External dependencies -->
 		<dependency>
@@ -50,7 +47,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>${project.groupId}/order-service:${project.version}</name>
+						<name>${project.groupId}/payment-service:${project.version}</name>
 					</image>
 				</configuration>
 				<executions>

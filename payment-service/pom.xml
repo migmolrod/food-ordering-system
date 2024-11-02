@@ -6,21 +6,21 @@
 
 	<parent>
 		<groupId>ovh.migmolrod.food.ordering.system</groupId>
-		<artifactId>order-service</artifactId>
+		<artifactId>food-ordering-system</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>order-domain</artifactId>
+	<artifactId>payment-service</artifactId>
 	<packaging>pom</packaging>
 
-	<name>Order Domain</name>
-	<description>
-		Domain layer of Order microservice that holds domain core and application service (input port)
-	</description>
+	<name>Payment Service</name>
+	<description>DDD microservice that contains payment submodules</description>
 
 	<modules>
-		<module>order-domain-core</module>
-		<module>order-domain-service</module>
+		<module>payment-container</module>
+		<module>payment-data</module>
+		<module>payment-domain</module>
+		<module>payment-messaging</module>
 	</modules>
 
 </project>

@@ -15,14 +15,11 @@
 	<name>Order Data Access</name>
 	<description>Implementation of output port for Order microservice database access</description>
 
-	<properties>
-	</properties>
-
 	<dependencies>
 		<!-- Internal dependencies -->
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-application-service</artifactId>
+			<artifactId>order-domain-service</artifactId>
 		</dependency>
 		<!-- External dependencies -->
 		<dependency>
