@@ -27,7 +27,7 @@ spring:
 order-service:
   payment-request-topic-name: payment-request
   payment-response-topic-name: payment-response
-  restaurant-approval-request-topic-name: : restaurant-approval-request
+  restaurant-approval-request-topic-name: restaurant-approval-request
   restaurant-approval-response-topic-name: restaurant-approval-response
 
 kafka-config:
