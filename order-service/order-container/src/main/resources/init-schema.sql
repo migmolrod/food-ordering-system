@@ -7,10 +7,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TYPE IF EXISTS order_status;
 CREATE TYPE order_status AS ENUM ('PENDING','PAID','APPROVED','CANCELLING','CANCELLED');
 
-DROP TABLE IF EXISTS "order".order;
-CREATE TABLE "order".order
+DROP TABLE IF EXISTS "order".orders;
+CREATE TABLE "order".orders
 (
-    id               UUID           NOT NULL DEFAULT uuid_generate_v4(),
+    id               UUID           NOT NULL,
     customer_id      UUID           NOT NULL,
     restaurant_id    UUID           NOT NULL,
     tracking_id      UUID           NOT NULL,
@@ -34,25 +34,25 @@ CREATE TABLE "order".order_items
 
 ALTER TABLE "order".order_items
     ADD CONSTRAINT fk_order_items_order_id FOREIGN KEY (order_id)
-        REFERENCES "order".order (id) MATCH SIMPLE
+        REFERENCES "order".orders (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
         NOT VALID;
 
-DROP TABLE IF EXISTS "order".order_address;
-CREATE TABLE "order".order_address
+DROP TABLE IF EXISTS "order".order_addresses;
+CREATE TABLE "order".order_addresses
 (
-    id       UUID                                           NOT NULL,
-    order_id UUID                                           NOT NULL,
-    street   CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
+    id          UUID                                           NOT NULL,
+    order_id    UUID                                           NOT NULL,
+    street      CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
     postal_code CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
-    city     CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
+    city        CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT pk_order_address PRIMARY KEY (id, order_id)
 );
 
-ALTER TABLE "order".order_address
-    ADD CONSTRAINT fk_order_items_order_id FOREIGN KEY (order_id)
-        REFERENCES "order".order (id) MATCH SIMPLE
+ALTER TABLE "order".order_addresses
+    ADD CONSTRAINT fk_order_address_order_id FOREIGN KEY (order_id)
+        REFERENCES "order".orders (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
         NOT VALID;

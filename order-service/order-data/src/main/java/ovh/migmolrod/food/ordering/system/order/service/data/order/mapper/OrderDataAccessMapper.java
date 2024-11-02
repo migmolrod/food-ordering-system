@@ -29,7 +29,7 @@ public class OrderDataAccessMapper {
 				.address(deliveryAddressToOrderAddressEntity(order.getDeliveryAddress()))
 				.price(order.getPrice().getAmount())
 				.orderItems(orderItemsToOrderItemEntities(order.getItems()))
-				.status(order.getStatus())
+				.orderStatus(order.getStatus())
 				.failureMessages(order.getFailureMessages() != null ?
 						String.join(Order.FAILURE_MESSAGE_DELIMITER, order.getFailureMessages()) : "")
 				.build();
@@ -48,7 +48,7 @@ public class OrderDataAccessMapper {
 				.price(new Money(orderEntity.getPrice()))
 				.items(orderItemEntitiesToOrderItems(orderEntity.getOrderItems()))
 				.trackingId(new TrackingId(orderEntity.getTrackingId()))
-				.status(orderEntity.getStatus())
+				.status(orderEntity.getOrderStatus())
 				.failureMessages(StringUtils.hasText(orderEntity.getFailureMessages()) ?
 						new ArrayList<>(Arrays.asList(orderEntity.getFailureMessages().split(Order.FAILURE_MESSAGE_DELIMITER))) :
 						new ArrayList<>())
