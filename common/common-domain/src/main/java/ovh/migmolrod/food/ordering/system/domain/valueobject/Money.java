@@ -28,7 +28,7 @@ public class Money {
 		return new Money(this.setScale(this.amount.add(money.getAmount())));
 	}
 
-	public Money substract(Money money) {
+	public Money subtract(Money money) {
 		return new Money(this.setScale(this.amount.subtract(money.getAmount())));
 	}
 
