@@ -3,22 +3,23 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>ovh.migmolrod.food.ordering.system</groupId>
-		<artifactId>order-domain</artifactId>
+		<artifactId>payment-domain</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>order-domain-service</artifactId>
+	<artifactId>payment-application-service</artifactId>
 
-	<name>Order Domain Service</name>
-	<description>Implementation of input port for Order microservice application service (use cases)</description>
+	<name>Payment Application Service</name>
+	<description>Implementation of input port for Payment microservice application service (use cases)</description>
 
 	<dependencies>
 		<!-- Internal dependencies -->
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-domain-core</artifactId>
+			<artifactId>payment-domain-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>

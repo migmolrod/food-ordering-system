@@ -20,7 +20,7 @@
 
 	<modules>
 		<module>order-domain-core</module>
-		<module>order-domain-service</module>
+		<module>order-application-service</module>
 	</modules>
 
 </project>

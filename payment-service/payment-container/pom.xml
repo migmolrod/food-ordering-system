@@ -23,7 +23,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>payment-domain-service</artifactId>
+			<artifactId>payment-application-service</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>

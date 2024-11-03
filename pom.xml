@@ -88,7 +88,7 @@
 			<!-- ORDER DOMAIN SERVICE -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
-				<artifactId>order-domain-service</artifactId>
+				<artifactId>order-application-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- ORDER APPLICATION -->
@@ -123,7 +123,7 @@
 			<!-- PAYMENT DOMAIN SERVICE -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
-				<artifactId>payment-domain-service</artifactId>
+				<artifactId>payment-application-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- PAYMENT DATA -->

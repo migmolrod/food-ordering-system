@@ -22,7 +22,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>order-domain-service</artifactId>
+			<artifactId>order-application-service</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
