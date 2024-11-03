@@ -12,6 +12,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static ovh.migmolrod.food.ordering.system.domain.DomainConstants.DEFAULT_ZONE_ID;
+
 public class Payment extends AggregateRoot<PaymentId> {
 
 	public static final String FAILURE_MESSAGE_DELIMITER = ",";
@@ -36,7 +38,7 @@ public class Payment extends AggregateRoot<PaymentId> {
 
 	public void initializePayment() {
 		setId(new PaymentId(UUID.randomUUID()));
-		createdAt = ZonedDateTime.now(ZoneId.of("UTC"));
+		createdAt = ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID));
 	}
 
 	public void validatePayment(List<String> failureMessages) {

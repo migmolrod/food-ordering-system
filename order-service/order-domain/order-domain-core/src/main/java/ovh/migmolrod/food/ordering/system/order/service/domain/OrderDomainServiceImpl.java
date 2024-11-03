@@ -13,10 +13,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static ovh.migmolrod.food.ordering.system.domain.DomainConstants.DEFAULT_ZONE_ID;
+
 @Slf4j
 public class OrderDomainServiceImpl implements OrderDomainService {
-
-	private final static String UTC = "UTC";
 
 	@Override
 	public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant) {
@@ -26,7 +26,7 @@ public class OrderDomainServiceImpl implements OrderDomainService {
 		order.initializeOrder();
 		log.info("Order with id '{}' is initialized", order.getId().getValue());
 
-		return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+		return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)));
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class OrderDomainServiceImpl implements OrderDomainService {
 		order.pay();
 		log.info("Order with id '{}' has been paid", order.getId().getValue());
 
-		return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+		return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)));
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class OrderDomainServiceImpl implements OrderDomainService {
 		order.initCancel(failureMessages);
 		log.info("Payment for order with id '{}' has been cancelled", order.getId().getValue());
 
-		return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+		return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)));
 	}
 
 	@Override

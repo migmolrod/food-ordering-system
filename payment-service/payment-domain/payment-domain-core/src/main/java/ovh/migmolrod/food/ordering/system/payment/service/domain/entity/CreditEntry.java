@@ -20,7 +20,7 @@ public class CreditEntry extends BaseEntity<CreditEntryId> {
 		return new Builder();
 	}
 
-	public void addCreditAmmount(Money amount) {
+	public void addCreditAmount(Money amount) {
 		totalCreditAccount = totalCreditAccount.add(amount);
 	}
 
