@@ -43,7 +43,7 @@ public class OrderController {
 		TrackOrderQuery trackOrderQuery = TrackOrderQuery.builder().orderTrackingId(trackingId).build();
 
 		TrackOrderResponse trackOrderResponse = orderApplicationService.trackOrder(trackOrderQuery);
-		log.info("Returning order status with tracking id: {}", trackOrderResponse.getOrderTrackingId());
+		log.info("Returning order status with tracking id {}", trackOrderResponse.getOrderTrackingId());
 
 		return ResponseEntity.ok(trackOrderResponse);
 	}
