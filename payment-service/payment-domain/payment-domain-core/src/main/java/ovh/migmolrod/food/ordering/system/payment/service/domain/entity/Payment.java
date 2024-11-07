@@ -16,7 +16,6 @@ import static ovh.migmolrod.food.ordering.system.domain.DomainConstants.DEFAULT_
 
 public class Payment extends AggregateRoot<PaymentId> {
 
-	public static final String FAILURE_MESSAGE_DELIMITER = ",";
 	private final OrderId orderId;
 	private final CustomerId customerId;
 	private final Money price;

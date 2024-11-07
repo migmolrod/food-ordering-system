@@ -8,12 +8,12 @@ import ovh.migmolrod.food.ordering.system.payment.service.domain.valueobject.Cre
 public class CreditEntry extends BaseEntity<CreditEntryId> {
 
 	private final CustomerId customerId;
-	private Money totalCreditAccount;
+	private Money totalCreditAmount;
 
 	private CreditEntry(Builder builder) {
 		setId(builder.creditEntryId);
 		customerId = builder.customerId;
-		totalCreditAccount = builder.totalCreditAccount;
+		totalCreditAmount = builder.totalCreditAmount;
 	}
 
 	public static Builder builder() {
@@ -21,26 +21,26 @@ public class CreditEntry extends BaseEntity<CreditEntryId> {
 	}
 
 	public void addCreditAmount(Money amount) {
-		totalCreditAccount = totalCreditAccount.add(amount);
+		totalCreditAmount = totalCreditAmount.add(amount);
 	}
 
 	public void subtractCreditAmount(Money amount) {
-		totalCreditAccount = totalCreditAccount.subtract(amount);
+		totalCreditAmount = totalCreditAmount.subtract(amount);
 	}
 
 	public CustomerId getCustomerId() {
 		return customerId;
 	}
 
-	public Money getTotalCreditAccount() {
-		return totalCreditAccount;
+	public Money getTotalCreditAmount() {
+		return totalCreditAmount;
 	}
 
 	public static final class Builder {
 
 		private CreditEntryId creditEntryId;
 		private CustomerId customerId;
-		private Money totalCreditAccount;
+		private Money totalCreditAmount;
 
 		private Builder() {}
 
@@ -58,8 +58,8 @@ public class CreditEntry extends BaseEntity<CreditEntryId> {
 			return this;
 		}
 
-		public Builder totalCreditAccount(Money val) {
-			totalCreditAccount = val;
+		public Builder totalCreditAmount(Money val) {
+			totalCreditAmount = val;
 			return this;
 		}
 
