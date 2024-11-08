@@ -2,6 +2,7 @@ package ovh.migmolrod.food.ordering.system.payment.service.messaging.mapper;
 
 import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.PaymentOrderStatus;
+import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
 import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
 import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentStatus;
 import ovh.migmolrod.food.ordering.system.payment.service.domain.dto.message.PaymentRequest;
@@ -35,21 +36,22 @@ public class PaymentMessagingDataMapper {
 	}
 
 	public PaymentRequest paymentRequestAvroModelToPaymentRequest(
-			PaymentResponseAvroModel paymentResponseAvroModel
+			PaymentRequestAvroModel paymentRequestAvroModel
 	) {
 		return PaymentRequest.builder()
-				.id(paymentResponseAvroModel.getId())
-				.sagaId(paymentResponseAvroModel.getSagaId())
-				.customerId(paymentResponseAvroModel.getCustomerId())
-				.orderId(paymentResponseAvroModel.getOrderId())
-				.price(paymentResponseAvroModel.getPrice())
-				.createdAt(paymentResponseAvroModel.getCreatedAt())
-				.paymentOrderStatus(PaymentOrderStatus.valueOf(paymentResponseAvroModel.getPaymentStatus().name()))
+				.id(paymentRequestAvroModel.getId())
+				.sagaId(paymentRequestAvroModel.getSagaId())
+				.customerId(paymentRequestAvroModel.getCustomerId())
+				.orderId(paymentRequestAvroModel.getOrderId())
+				.price(paymentRequestAvroModel.getPrice())
+				.createdAt(paymentRequestAvroModel.getCreatedAt())
+				.paymentOrderStatus(PaymentOrderStatus.valueOf(paymentRequestAvroModel.getPaymentOrderStatus().name()))
 				.build();
 	}
 
 	private PaymentResponseAvroModel getPaymentResponseAvroModel(
-			PaymentEvent event) {
+			PaymentEvent event
+	) {
 		Payment payment = event.getPayment();
 
 		return PaymentResponseAvroModel.newBuilder()
