@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.messaging.publisher.kafka;
+package ovh.migmolrod.food.ordering.system.kafka.producer.helper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -10,13 +10,13 @@ import javax.annotation.Nonnull;
 
 @Slf4j
 @Component
-public class OrderKafkaMessageHelper {
+public class KafkaMessageHelper {
 
 	public <T> ListenableFutureCallback<SendResult<String, T>> getKafkaCallback(
 			String requestTopicName,
-			T requestAvroModel,
+			T avroModel,
 			String orderId,
-			String requestAvroModelName
+			String avroModelName
 	) {
 		return new ListenableFutureCallback<>() {
 			@Override
@@ -24,8 +24,8 @@ public class OrderKafkaMessageHelper {
 				log.error("""
 								"Error while sending {} message {} to topic {}. Error: {}"
 								""",
-						requestAvroModelName,
-						requestAvroModel.toString(),
+						avroModelName,
+						avroModel.toString(),
 						requestTopicName,
 						exception.getMessage(),
 						exception

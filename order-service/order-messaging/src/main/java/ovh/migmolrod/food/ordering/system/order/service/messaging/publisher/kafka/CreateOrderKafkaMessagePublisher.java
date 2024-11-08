@@ -3,6 +3,7 @@ package ovh.migmolrod.food.ordering.system.order.service.messaging.publisher.kaf
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import ovh.migmolrod.food.ordering.system.kafka.producer.helper.KafkaMessageHelper;
 import ovh.migmolrod.food.ordering.system.kafka.producer.service.KafkaProducer;
 import ovh.migmolrod.food.ordering.system.order.service.domain.config.OrderServiceConfigData;
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
@@ -15,18 +16,18 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
 
 	private final OrderMessagingDataMapper orderMessagingDataMapper;
 	private final OrderServiceConfigData orderServiceConfigData;
-	private final OrderKafkaMessageHelper orderKafkaMessageHelper;
+	private final KafkaMessageHelper kafkaMessageHelper;
 	private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
 
 	public CreateOrderKafkaMessagePublisher(
 			OrderMessagingDataMapper orderMessagingDataMapper,
 			OrderServiceConfigData orderServiceConfigData,
-			OrderKafkaMessageHelper orderKafkaMessageHelper,
+			KafkaMessageHelper kafkaMessageHelper,
 			KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer
 	) {
 		this.orderMessagingDataMapper = orderMessagingDataMapper;
 		this.orderServiceConfigData = orderServiceConfigData;
-		this.orderKafkaMessageHelper = orderKafkaMessageHelper;
+		this.kafkaMessageHelper = kafkaMessageHelper;
 		this.kafkaProducer = kafkaProducer;
 	}
 
@@ -43,7 +44,7 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
 					orderServiceConfigData.getPaymentRequestTopicName(),
 					orderId,
 					paymentRequestAvroModel,
-					orderKafkaMessageHelper.getKafkaCallback(
+					kafkaMessageHelper.getKafkaCallback(
 							orderServiceConfigData.getPaymentRequestTopicName(),
 							paymentRequestAvroModel,
 							orderId,
@@ -55,10 +56,7 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
 		} catch (Exception e) {
 			log.error("""
 							Error while sending PaymentRequestAvroModel message to Kafka with order id: {}. Error: {}
-							""",
-					orderId,
-					e.getMessage(),
-					e
+							""", orderId, e.getMessage(), e
 			);
 		}
 	}
