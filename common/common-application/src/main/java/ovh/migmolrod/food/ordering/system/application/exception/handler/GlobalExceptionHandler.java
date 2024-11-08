@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.application.handler;
+package ovh.migmolrod.food.ordering.system.application.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,7 @@
 package ovh.migmolrod.food.ordering.system.order.service.domain;
 
 import lombok.extern.slf4j.Slf4j;
+import ovh.migmolrod.food.ordering.system.domain.event.publisher.DomainEventPublisher;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Product;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Restaurant;
@@ -13,48 +14,71 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static ovh.migmolrod.food.ordering.system.domain.DomainConstants.DEFAULT_ZONE_ID;
+
 @Slf4j
 public class OrderDomainServiceImpl implements OrderDomainService {
 
-	private final static String UTC = "UTC";
-
 	@Override
-	public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant) {
+	public OrderCreatedEvent validateAndInitiateOrder(
+			Order order,
+			Restaurant restaurant,
+			DomainEventPublisher<OrderCreatedEvent> orderCreatedEventDomainEventPublisher
+	) {
 		validateRestaurant(restaurant);
 		setOrderProductInformation(order, restaurant);
 		order.validateOrder();
 		order.initializeOrder();
-		log.info("Order with id '{}' is initialized", order.getId().getValue());
+		log.info("Order with id {} is initialized", order.getId().getValue());
 
-		return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+		return new OrderCreatedEvent(
+				order,
+				ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
+				orderCreatedEventDomainEventPublisher
+		);
 	}
 
 	@Override
-	public OrderPaidEvent payOrder(Order order) {
+	public OrderPaidEvent payOrder(
+			Order order,
+			DomainEventPublisher<OrderPaidEvent> orderPaidEventDomainEventPublisher
+	) {
 		order.pay();
-		log.info("Order with id '{}' has been paid", order.getId().getValue());
+		log.info("Order with id {} has been paid", order.getId().getValue());
 
-		return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+		return new OrderPaidEvent(
+				order,
+				ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
+				orderPaidEventDomainEventPublisher
+		);
 	}
 
 	@Override
 	public void approveOrder(Order order) {
 		order.approve();
-		log.info("Order with id '{}' has been approved", order.getId().getValue());
+		log.info("Order with id {} has been approved", order.getId().getValue());
 	}
 
 	@Override
-	public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages) {
+	public OrderCancelledEvent cancelOrderPayment(
+			Order order,
+			List<String> failureMessages,
+			DomainEventPublisher<OrderCancelledEvent> orderCancelledEventDomainEventPublisher
+	) {
 		order.initCancel(failureMessages);
-		log.info("Payment for order with id '{}' has been cancelled", order.getId().getValue());
+		log.info("Payment for order with id {} has been cancelled", order.getId().getValue());
 
-		return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+		return new OrderCancelledEvent(
+				order,
+				ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
+				orderCancelledEventDomainEventPublisher
+		);
 	}
 
 	@Override
 	public void cancelOrder(Order order, List<String> failureMessages) {
 		order.cancel(failureMessages);
-		log.info("Order with id '{}' has been cancelled", order.getId().getValue());
+		log.info("Order with id {} has been cancelled", order.getId().getValue());
 	}
 
 	private void validateRestaurant(Restaurant restaurant) {

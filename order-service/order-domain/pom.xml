@@ -19,11 +19,8 @@
 	</description>
 
 	<modules>
-		<module>order-application-service</module>
 		<module>order-domain-core</module>
+		<module>order-application-service</module>
 	</modules>
-
-	<properties>
-	</properties>
 
 </project>

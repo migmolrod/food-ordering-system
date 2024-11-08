@@ -15,9 +15,6 @@
 	<name>Order Application</name>
 	<description>Client for Order Service input port</description>
 
-	<properties>
-	</properties>
-
 	<dependencies>
 		<!-- Internal dependencies -->
 		<dependency>

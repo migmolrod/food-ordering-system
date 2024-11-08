@@ -14,9 +14,6 @@
 	<name>Order Container</name>
 	<description>Container for Order microservice</description>
 
-	<properties>
-	</properties>
-
 	<dependencies>
 		<!-- Internal dependencies -->
 		<dependency>

@@ -3,6 +3,7 @@ package ovh.migmolrod.food.ordering.system.order.service.messaging.publisher.kaf
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
+import ovh.migmolrod.food.ordering.system.kafka.producer.helper.KafkaMessageHelper;
 import ovh.migmolrod.food.ordering.system.kafka.producer.service.KafkaProducer;
 import ovh.migmolrod.food.ordering.system.order.service.domain.config.OrderServiceConfigData;
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderPaidEvent;
@@ -15,18 +16,18 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
 
 	private final OrderMessagingDataMapper orderMessagingDataMapper;
 	private final OrderServiceConfigData orderServiceConfigData;
-	private final OrderKafkaMessageHelper orderKafkaMessageHelper;
+	private final KafkaMessageHelper kafkaMessageHelper;
 	private final KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer;
 
 	public PayOrderKafkaMessagePublisher(
 			OrderMessagingDataMapper orderMessagingDataMapper,
 			OrderServiceConfigData orderServiceConfigData,
-			OrderKafkaMessageHelper orderKafkaMessageHelper,
+			KafkaMessageHelper kafkaMessageHelper,
 			KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer
 	) {
 		this.orderMessagingDataMapper = orderMessagingDataMapper;
 		this.orderServiceConfigData = orderServiceConfigData;
-		this.orderKafkaMessageHelper = orderKafkaMessageHelper;
+		this.kafkaMessageHelper = kafkaMessageHelper;
 		this.kafkaProducer = kafkaProducer;
 	}
 
@@ -43,7 +44,7 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
 					orderServiceConfigData.getRestaurantApprovalRequestTopicName(),
 					orderId,
 					restaurantApprovalRequestAvroModel,
-					orderKafkaMessageHelper.getKafkaCallback(
+					kafkaMessageHelper.getKafkaCallback(
 							orderServiceConfigData.getRestaurantApprovalRequestTopicName(),
 							restaurantApprovalRequestAvroModel,
 							orderId,
