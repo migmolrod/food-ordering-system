@@ -5,9 +5,8 @@ import java.math.RoundingMode;
 
 public class Money {
 
-	private final BigDecimal amount;
-
 	public static final Money ZERO = new Money(BigDecimal.ZERO);
+	private final BigDecimal amount;
 
 	public Money(BigDecimal amount) {
 		this.amount = amount;
@@ -29,7 +28,7 @@ public class Money {
 		return new Money(this.setScale(this.amount.add(money.getAmount())));
 	}
 
-	public Money substract(Money money) {
+	public Money subtract(Money money) {
 		return new Money(this.setScale(this.amount.subtract(money.getAmount())));
 	}
 

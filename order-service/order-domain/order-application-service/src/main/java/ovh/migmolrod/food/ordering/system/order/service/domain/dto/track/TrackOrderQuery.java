@@ -11,6 +11,8 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class TrackOrderQuery {
+
 	@NotNull
 	private final UUID orderTrackingId;
+
 }

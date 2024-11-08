@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.6.7</version>
-    <relativePath/>
-  </parent>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.7</version>
+		<relativePath/>
+	</parent>
 
-  <groupId>ovh.migmolrod.food.ordering.system</groupId>
-  <artifactId>food-ordering-system</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+	<groupId>ovh.migmolrod.food.ordering.system</groupId>
+	<artifactId>food-ordering-system</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 	<name>Food Ordering System</name>
 	<description>Microservices + Kafka system for food ordering, handling customer, restaurants, etc.</description>
 
 	<modules>
-		<module>order-service</module>
 		<module>common</module>
 		<module>infrastructure</module>
-		<module>infrastructure/kafka</module>
+		<module>order-service</module>
+		<module>customer-service</module>
+		<module>payment-service</module>
 	</modules>
 
 	<properties>
-	  <!-- GENERAL SETTINGS -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	  <!-- PLUGIN SETTINGS -->
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-	  <maven.compiler.release>17</maven.compiler.release>
-	  <!-- PLUGIN VERSIONS -->
-	  <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
+		<!-- GENERAL SETTINGS -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- PLUGIN SETTINGS -->
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.release>17</maven.compiler.release>
+		<!-- PLUGIN VERSIONS -->
+		<maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
 		<!-- DEPENDENCIES VERSIONS -->
 		<mockito-core.version>4.3.1</mockito-core.version>
 		<spring-kafka.version>2.8.2</spring-kafka.version>
 		<kafka-avro-serializer.version>7.0.1</kafka-avro-serializer.version>
 		<avro.version>1.11.0</avro.version>
-  </properties>
+		<postgresql.version>42.7.2</postgresql.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -84,7 +86,7 @@
 				<artifactId>order-domain-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- ORDER APPLICATION SERVICE -->
+			<!-- ORDER DOMAIN SERVICE -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>order-application-service</artifactId>
@@ -106,6 +108,35 @@
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>order-messaging</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- ################################################################ -->
+			<!-- PAYMENT SERVICE -->
+			<!-- ################################################################ -->
+
+			<!-- PAYMENT DOMAIN CORE -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>payment-domain-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- PAYMENT DOMAIN SERVICE -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>payment-application-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- PAYMENT DATA -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>payment-data</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- PAYMENT MESSAGING -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>payment-messaging</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -146,6 +177,12 @@
 				<artifactId>mockito-core</artifactId>
 				<version>${mockito-core.version}</version>
 				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
 			</dependency>
 
 			<!-- ################################################################ -->

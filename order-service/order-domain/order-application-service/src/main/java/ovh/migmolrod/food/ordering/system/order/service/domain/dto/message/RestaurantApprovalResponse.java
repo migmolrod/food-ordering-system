@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class RestaurantApprovalResponse {
+
 	private String id;
 	private String sagaId;
 	private String orderId;
@@ -19,4 +20,5 @@ public class RestaurantApprovalResponse {
 	private Instant createdAt;
 	private OrderApprovalStatus orderApprovalStatus;
 	private List<String> failureMessages;
+
 }

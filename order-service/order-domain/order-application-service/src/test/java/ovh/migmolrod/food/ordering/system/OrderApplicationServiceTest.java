@@ -32,29 +32,24 @@ import java.util.UUID;
 @SpringBootTest(classes = OrderTestConfiguration.class)
 public class OrderApplicationServiceTest {
 
-	@Autowired
-	private OrderApplicationService orderApplicationService;
-
-	@Autowired
-	private OrderDataMapper orderDataMapper;
-
-	@Autowired
-	private OrderRepository orderRepository;
-
-	@Autowired
-	private CustomerRepository customerRepository;
-
-	@Autowired
-	private RestaurantRepository restaurantRepository;
-
-	private CreateOrderCommand createOrderCommand;
-	private CreateOrderCommand createOrderCommandWrongPrice;
-	private CreateOrderCommand createOrderCommandWrongProductPrice;
 	private final UUID CUSTOMER_ID = UUID.fromString("eff9a4ce-a18a-41d5-bf0a-c245e07e8b68");
 	private final UUID RESTAURANT_ID = UUID.fromString("39442cde-b7b9-4063-9e98-07a6e58f55f4");
 	private final UUID PRODUCT_ID = UUID.fromString("6f31dd5a-93fb-4370-b187-f50e084ea186");
 	private final UUID ORDER_ID = UUID.fromString("c428f69d-1bfc-4e6e-854f-9f9e898d1f61");
 	private final BigDecimal PRICE = new BigDecimal("200.00");
+	@Autowired
+	private OrderApplicationService orderApplicationService;
+	@Autowired
+	private OrderDataMapper orderDataMapper;
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private RestaurantRepository restaurantRepository;
+	private CreateOrderCommand createOrderCommand;
+	private CreateOrderCommand createOrderCommandWrongPrice;
+	private CreateOrderCommand createOrderCommandWrongProductPrice;
 
 	@BeforeAll
 	public void init() {
@@ -142,8 +137,10 @@ public class OrderApplicationServiceTest {
 		Restaurant restaurantResponse = Restaurant.builder()
 				.restaurantId(new RestaurantId(RESTAURANT_ID))
 				.products(List.of(
-								new Product(new ProductId(PRODUCT_ID), "product-1", new Money(new BigDecimal("50.00"))),
-								new Product(new ProductId(UUID.randomUUID()), "product-2", new Money(new BigDecimal("66.00")))
+								new Product(new ProductId(PRODUCT_ID), "product-1",
+										new Money(new BigDecimal("50.00"))),
+								new Product(new ProductId(UUID.randomUUID()), "product-2", new Money(new BigDecimal(
+										"66.00")))
 						)
 				)
 				.active(true)
@@ -199,8 +196,10 @@ public class OrderApplicationServiceTest {
 		Restaurant restaurantResponse = Restaurant.builder()
 				.restaurantId(new RestaurantId(RESTAURANT_ID))
 				.products(List.of(
-								new Product(new ProductId(PRODUCT_ID), "product-1", new Money(new BigDecimal("50.00"))),
-								new Product(new ProductId(UUID.randomUUID()), "product-2", new Money(new BigDecimal("66.00")))
+								new Product(new ProductId(PRODUCT_ID), "product-1",
+										new Money(new BigDecimal("50.00"))),
+								new Product(new ProductId(UUID.randomUUID()), "product-2", new Money(new BigDecimal(
+										"66.00")))
 						)
 				)
 				.active(false)

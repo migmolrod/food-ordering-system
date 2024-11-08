@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -12,13 +12,26 @@
 
 	<artifactId>order-messaging</artifactId>
 
-	<properties>
-	</properties>
+	<name>Order Messaging</name>
+	<description>Implementation of output port for Order microservice messaging (Kafka)</description>
 
 	<dependencies>
+		<!-- Internal dependencies -->
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>order-application-service</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>kafka-consumer</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>kafka-producer</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>kafka-model</artifactId>
 		</dependency>
 	</dependencies>
 

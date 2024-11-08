@@ -44,9 +44,10 @@ build/
 .env
 
 #### Docker volumes
-/infrastructure/docker-compose/volumes/kafka/broker-1/*
-/infrastructure/docker-compose/volumes/kafka/broker-2/*
-/infrastructure/docker-compose/volumes/kafka/broker-3/*
-/infrastructure/docker-compose/volumes/zookeeper/data/*
-/infrastructure/docker-compose/volumes/zookeeper/transactions/*
+/infrastructure/food-ordering-system/volumes/kafka/broker-1/*
+/infrastructure/food-ordering-system/volumes/kafka/broker-2/*
+/infrastructure/food-ordering-system/volumes/kafka/broker-3/*
+/infrastructure/food-ordering-system/volumes/postgres/*
+/infrastructure/food-ordering-system/volumes/zookeeper/data/*
+/infrastructure/food-ordering-system/volumes/zookeeper/transactions/*
 !.gitkeep

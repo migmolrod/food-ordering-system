@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-17}
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "postgres:/var/lib/postgresql/data"
+    networks:
+      - ${GLOBAL_NETWORK:-postgres}
+
+  pgadmin:
+    image: dpage/pgadmin4:${PGADMIN_VERSION:-latest}
+    restart: always
+    ports:
+      - "15432:15432"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_LISTEN_PORT: 15432
+    volumes:
+      - "pgadmin:/var/lib/pgadmin"
+    networks:
+      - ${GLOBAL_NETWORK:-postgres}
+    depends_on:
+      - postgres
+
+volumes:
+  postgres:
+  pgadmin:
