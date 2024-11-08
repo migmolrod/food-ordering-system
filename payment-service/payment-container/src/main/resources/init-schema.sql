@@ -15,7 +15,7 @@ CREATE TABLE payment.payments
     order_id UUID NOT NULL,
     price NUMERIC(10, 2) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    status payment_status NOT NULL,
+    payment_status payment_status NOT NULL,
     CONSTRAINT pk_payment PRIMARY KEY (id)
 );
 
@@ -37,6 +37,6 @@ CREATE TABLE payment.credit_histories
     id UUID NOT NULL,
     customer_id UUID NOT NULL,
     amount NUMERIC(10, 2) NOT NULL,
-    type transaction_type NOT NULL,
+    transaction_type transaction_type NOT NULL,
     CONSTRAINT pk_credit_history PRIMARY KEY (id)
 );
