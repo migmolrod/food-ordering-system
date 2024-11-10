@@ -34,7 +34,8 @@ public class OrderCreateHelper {
 			OrderRepository orderRepository,
 			CustomerRepository customerRepository,
 			RestaurantRepository restaurantRepository,
-			OrderDataMapper orderDataMapper, OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher
+			OrderDataMapper orderDataMapper,
+			OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher
 	) {
 		this.orderDomainService = orderDomainService;
 		this.orderRepository = orderRepository;

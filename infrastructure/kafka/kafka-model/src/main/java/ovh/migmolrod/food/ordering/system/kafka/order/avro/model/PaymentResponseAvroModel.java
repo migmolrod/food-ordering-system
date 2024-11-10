@@ -973,13 +973,3 @@ public class PaymentResponseAvroModel extends org.apache.avro.specific.SpecificR
 	}
 
 }
-
-
-
-
-
-
-
-
-
-

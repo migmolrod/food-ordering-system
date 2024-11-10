@@ -64,11 +64,14 @@ public class RestaurantApprovalRequestHelper {
 
 	private Restaurant findRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {
 		Restaurant restaurant = restaurantDataMapper.restaurantApprovalRequestToRestaurant(restaurantApprovalRequest);
-		Restaurant restaurantInformation = restaurantRepository.findRestaurantInformation(restaurant).orElseThrow(() -> {
-			String errorMessage = "Restaurant with id " + restaurantApprovalRequest.getRestaurantId() + " not found!";
-			log.error(errorMessage);
-			return new RestaurantNotFoundException(errorMessage);
-		});
+		Restaurant restaurantInformation = restaurantRepository.findRestaurantInformation(restaurant)
+				.orElseThrow(() -> {
+					String errorMessage = String.format(
+							"Restaurant with id %s not found!", restaurantApprovalRequest.getRestaurantId()
+					);
+					log.error(errorMessage);
+					return new RestaurantNotFoundException(errorMessage);
+				});
 
 		restaurant.setActive(restaurantInformation.isActive());
 		restaurant.getOrderDetail().getProducts().forEach(product -> {

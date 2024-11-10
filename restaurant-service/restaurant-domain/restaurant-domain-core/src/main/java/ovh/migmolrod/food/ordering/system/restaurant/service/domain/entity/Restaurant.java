@@ -29,7 +29,9 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
 
 	public void validateOrder(List<String> failureMessages) {
 		if (!OrderStatus.PAID.equals(orderDetail.getOrderStatus())) {
-			failureMessages.add(String.format("Payment is not completed for order %s", orderDetail.getId().getValue()));
+			failureMessages.add(
+					String.format("Payment is not completed for order %s", orderDetail.getId().getValue())
+			);
 		}
 		Money totalAmount = orderDetail.getProducts().stream().map(product -> {
 			if (!product.isAvailable()) {
