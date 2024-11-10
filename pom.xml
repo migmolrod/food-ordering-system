@@ -87,7 +87,7 @@
 				<artifactId>order-domain-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- ORDER DOMAIN SERVICE -->
+			<!-- ORDER DOMAIN APPLICATION SERVICE -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>order-application-service</artifactId>
@@ -122,7 +122,7 @@
 				<artifactId>payment-domain-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- PAYMENT DOMAIN SERVICE -->
+			<!-- PAYMENT DOMAIN APPLICATION SERVICE -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>payment-application-service</artifactId>
@@ -138,6 +138,35 @@
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>payment-messaging</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- ################################################################ -->
+			<!-- RESTAURANT SERVICE -->
+			<!-- ################################################################ -->
+
+			<!-- RESTAURANT DOMAIN CORE -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>restaurant-domain-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- RESTAURANT DOMAIN APPLICATION SERVICE -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>restaurant-application-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- RESTAURANT DATA -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>restaurant-data</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- RESTAURANT MESSAGING -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>restaurant-messaging</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
