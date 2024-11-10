@@ -6,6 +6,4 @@ public interface RestaurantApprovalRequestMessageListener {
 
 	void approveOrder(RestaurantApprovalRequest restaurantApprovalRequest);
 
-	void rejectOrder(RestaurantApprovalRequest restaurantApprovalRequest);
-
 }
