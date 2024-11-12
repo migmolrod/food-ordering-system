@@ -1,17 +1,15 @@
-package ovh.migmolrod.food.ordering.system.order.service.data.restaurant.adapter;
+package ovh.migmolrod.food.ordering.system.restaurant.service.data.orderapproval.adapter;
 
-import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.data.restaurant.entity.RestaurantEntity;
 import ovh.migmolrod.food.ordering.system.data.restaurant.repository.RestaurantJpaRepository;
-import ovh.migmolrod.food.ordering.system.order.service.data.restaurant.mapper.RestaurantDataAccessMapper;
-import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Restaurant;
-import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
+import ovh.migmolrod.food.ordering.system.restaurant.service.data.orderapproval.mapper.RestaurantDataAccessMapper;
+import ovh.migmolrod.food.ordering.system.restaurant.service.domain.entity.Restaurant;
+import ovh.migmolrod.food.ordering.system.restaurant.service.domain.ports.output.repository.RestaurantRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
 public class RestaurantRepositoryImpl implements RestaurantRepository {
 
 	private final RestaurantJpaRepository restaurantJpaRepository;
@@ -27,13 +25,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
 	@Override
 	public Optional<Restaurant> findRestaurantInformation(Restaurant restaurant) {
-		List<UUID> restaurantProductIds = restaurantDataAccessMapper.restaurantToRestaurantProducts(restaurant);
+		List<UUID> restaurantProducts = restaurantDataAccessMapper.restaurantToRestaurantProducts(restaurant);
 
 		Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository.findByRestaurantIdAndProductIdIn(
 				restaurant.getId().getValue(),
-				restaurantProductIds
+				restaurantProducts
 		);
-
 		return restaurantEntities.map(restaurantDataAccessMapper::restaurantEntityToRestaurant);
 	}
 

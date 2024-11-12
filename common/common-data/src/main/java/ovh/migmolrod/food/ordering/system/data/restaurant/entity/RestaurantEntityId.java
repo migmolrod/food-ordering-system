@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.data.restaurant.entity;
+package ovh.migmolrod.food.ordering.system.data.restaurant.entity;
 
 import lombok.*;
 

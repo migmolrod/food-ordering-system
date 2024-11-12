@@ -77,6 +77,13 @@
 				<version>${project.version}</version>
 			</dependency>
 
+			<!-- COMMON DATA ACCESS -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>common-data</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
 			<!-- ################################################################ -->
 			<!-- ORDER SERVICE -->
 			<!-- ################################################################ -->

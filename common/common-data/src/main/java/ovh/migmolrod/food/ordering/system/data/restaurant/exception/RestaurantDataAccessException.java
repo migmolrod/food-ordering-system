@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.data.restaurant.exception;
+package ovh.migmolrod.food.ordering.system.data.restaurant.exception;
 
 public class RestaurantDataAccessException extends RuntimeException {
 
