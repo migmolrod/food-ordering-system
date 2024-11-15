@@ -1,11 +1,11 @@
 package ovh.migmolrod.food.ordering.system.order.service.data.restaurant.mapper;
 
 import org.springframework.stereotype.Component;
+import ovh.migmolrod.food.ordering.system.data.restaurant.entity.RestaurantEntity;
+import ovh.migmolrod.food.ordering.system.data.restaurant.exception.RestaurantDataAccessException;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.Money;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.ProductId;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.RestaurantId;
-import ovh.migmolrod.food.ordering.system.order.service.data.restaurant.entity.RestaurantEntity;
-import ovh.migmolrod.food.ordering.system.order.service.data.restaurant.exception.RestaurantDataAccessException;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Product;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Restaurant;
 

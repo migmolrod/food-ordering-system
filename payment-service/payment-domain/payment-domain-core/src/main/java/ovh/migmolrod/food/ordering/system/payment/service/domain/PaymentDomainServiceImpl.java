@@ -43,7 +43,11 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 		if (failureMessages.isEmpty()) {
 			log.info("Payment is initiated for order id: {}", payment.getOrderId().getValue());
 			payment.updateStatus(PaymentStatus.COMPLETED);
-			return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)), paymentCompletedEventDomainEventPublisher);
+			return new PaymentCompletedEvent(
+					payment,
+					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
+					paymentCompletedEventDomainEventPublisher
+			);
 		} else {
 			log.info("Payment initiation is failed for order id: {}", payment.getOrderId().getValue());
 			payment.updateStatus(PaymentStatus.FAILED);
@@ -151,7 +155,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 		}
 	}
 
-	private static Money getTotalHistoryAmount(List<CreditHistory> creditHistories, TransactionType transactionType) {
+	private Money getTotalHistoryAmount(List<CreditHistory> creditHistories, TransactionType transactionType) {
 		return creditHistories.stream()
 				.filter(creditHistory -> transactionType.equals(creditHistory.getTransactionType()))
 				.map(CreditHistory::getAmount)

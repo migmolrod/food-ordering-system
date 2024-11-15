@@ -808,13 +808,3 @@ public class PaymentRequestAvroModel extends org.apache.avro.specific.SpecificRe
 	}
 
 }
-
-
-
-
-
-
-
-
-
-

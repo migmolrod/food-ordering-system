@@ -6,7 +6,6 @@ import ovh.migmolrod.food.ordering.system.domain.valueobject.Money;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderId;
 import ovh.migmolrod.food.ordering.system.payment.service.domain.dto.message.PaymentRequest;
 import ovh.migmolrod.food.ordering.system.payment.service.domain.entity.Payment;
-import ovh.migmolrod.food.ordering.system.payment.service.domain.valueobject.PaymentId;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

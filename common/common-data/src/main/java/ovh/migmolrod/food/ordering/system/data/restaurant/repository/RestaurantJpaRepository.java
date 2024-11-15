@@ -1,9 +1,9 @@
-package ovh.migmolrod.food.ordering.system.order.service.data.restaurant.repository;
+package ovh.migmolrod.food.ordering.system.data.restaurant.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ovh.migmolrod.food.ordering.system.order.service.data.restaurant.entity.RestaurantEntity;
-import ovh.migmolrod.food.ordering.system.order.service.data.restaurant.entity.RestaurantEntityId;
+import ovh.migmolrod.food.ordering.system.data.restaurant.entity.RestaurantEntity;
+import ovh.migmolrod.food.ordering.system.data.restaurant.entity.RestaurantEntityId;
 
 import java.util.List;
 import java.util.Optional;

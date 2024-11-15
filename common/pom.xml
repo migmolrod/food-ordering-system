@@ -17,8 +17,9 @@
 	<description>Common submodule, holding common classes and interfaces</description>
 
 	<modules>
-		<module>common-domain</module>
 		<module>common-application</module>
+		<module>common-data</module>
+		<module>common-domain</module>
 	</modules>
 
 </project>
