@@ -1,5 +1,6 @@
 package ovh.migmolrod.food.ordering.system.restaurant.service.data.orderapproval.adapter;
 
+import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.data.restaurant.entity.RestaurantEntity;
 import ovh.migmolrod.food.ordering.system.data.restaurant.repository.RestaurantJpaRepository;
 import ovh.migmolrod.food.ordering.system.restaurant.service.data.orderapproval.mapper.RestaurantDataAccessMapper;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class RestaurantRepositoryImpl implements RestaurantRepository {
 
 	private final RestaurantJpaRepository restaurantJpaRepository;
