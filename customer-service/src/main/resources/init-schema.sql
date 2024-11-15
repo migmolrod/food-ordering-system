@@ -22,7 +22,7 @@ CREATE TABLE customer.customers
 );
 
 -- ################################################################
--- MATERIALIZED VIEW
+-- ORDER CUSTOMER MATERIALIZED VIEW
 -- ################################################################
 DROP MATERIALIZED VIEW IF EXISTS customer.order_customer_m_view;
 
