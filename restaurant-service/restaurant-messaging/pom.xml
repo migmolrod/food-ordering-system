@@ -16,6 +16,22 @@
 
 	<dependencies>
 		<!-- Internal dependencies -->
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>restaurant-application-service</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>kafka-consumer</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>kafka-producer</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>kafka-model</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
