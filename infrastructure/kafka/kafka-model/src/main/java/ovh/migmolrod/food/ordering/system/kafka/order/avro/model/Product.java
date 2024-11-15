@@ -386,13 +386,3 @@ public class Product extends org.apache.avro.specific.SpecificRecordBase impleme
 	}
 
 }
-
-
-
-
-
-
-
-
-
-

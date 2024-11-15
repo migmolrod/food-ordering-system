@@ -21,6 +21,10 @@
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>order-application-service</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>common-data</artifactId>
+		</dependency>
 		<!-- External dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

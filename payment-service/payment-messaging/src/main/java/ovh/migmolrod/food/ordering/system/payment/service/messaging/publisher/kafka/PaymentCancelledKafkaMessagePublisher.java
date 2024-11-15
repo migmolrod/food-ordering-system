@@ -7,9 +7,7 @@ import ovh.migmolrod.food.ordering.system.kafka.producer.helper.KafkaMessageHelp
 import ovh.migmolrod.food.ordering.system.kafka.producer.service.KafkaProducer;
 import ovh.migmolrod.food.ordering.system.payment.service.domain.config.PaymentServiceConfigData;
 import ovh.migmolrod.food.ordering.system.payment.service.domain.event.PaymentCancelledEvent;
-import ovh.migmolrod.food.ordering.system.payment.service.domain.event.PaymentCompletedEvent;
 import ovh.migmolrod.food.ordering.system.payment.service.domain.ports.output.message.publisher.PaymentCancelledMessagePublisher;
-import ovh.migmolrod.food.ordering.system.payment.service.domain.ports.output.message.publisher.PaymentCompletedMessagePublisher;
 import ovh.migmolrod.food.ordering.system.payment.service.messaging.mapper.PaymentMessagingDataMapper;
 
 @Slf4j

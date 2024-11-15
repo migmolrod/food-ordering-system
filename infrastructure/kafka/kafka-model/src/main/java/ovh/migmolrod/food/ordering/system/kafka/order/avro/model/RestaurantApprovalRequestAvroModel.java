@@ -897,13 +897,3 @@ public class RestaurantApprovalRequestAvroModel extends org.apache.avro.specific
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
