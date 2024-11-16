@@ -24,6 +24,10 @@
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>common-domain</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>saga</artifactId>
+		</dependency>
 		<!-- External dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
