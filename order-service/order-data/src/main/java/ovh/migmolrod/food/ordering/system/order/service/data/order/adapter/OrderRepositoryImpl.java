@@ -1,6 +1,7 @@
 package ovh.migmolrod.food.ordering.system.order.service.data.order.adapter;
 
 import org.springframework.stereotype.Component;
+import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderId;
 import ovh.migmolrod.food.ordering.system.order.service.data.order.entity.OrderEntity;
 import ovh.migmolrod.food.ordering.system.order.service.data.order.mapper.OrderDataAccessMapper;
 import ovh.migmolrod.food.ordering.system.order.service.data.order.repository.OrderJpaRepository;
@@ -34,6 +35,11 @@ public class OrderRepositoryImpl implements OrderRepository {
 	@Override
 	public Optional<Order> findByTrackingId(TrackingId trackingId) {
 		return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
+	}
+
+	@Override
+	public Optional<Order> findById(OrderId orderId) {
+		return orderJpaRepository.findById(orderId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
 	}
 
 }

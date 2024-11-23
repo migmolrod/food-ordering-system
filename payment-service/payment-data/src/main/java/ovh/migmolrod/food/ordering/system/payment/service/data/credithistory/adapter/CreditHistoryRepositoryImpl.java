@@ -10,6 +10,7 @@ import ovh.migmolrod.food.ordering.system.payment.service.domain.ports.output.re
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class CreditHistoryRepositoryImpl implements CreditHistoryRepository {
@@ -42,7 +43,7 @@ public class CreditHistoryRepositoryImpl implements CreditHistoryRepository {
 		return creditHistoryEntities.map(
 				creditHistoryList -> creditHistoryList.stream()
 						.map(creditHistoryDataAccessMapper::creditHistoryEntityToCreditHistory)
-						.toList()
+						.collect(Collectors.toList())
 		);
 	}
 

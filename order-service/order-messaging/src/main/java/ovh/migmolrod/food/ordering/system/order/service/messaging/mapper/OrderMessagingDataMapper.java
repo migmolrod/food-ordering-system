@@ -12,6 +12,7 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCreate
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderMessagingDataMapper {
@@ -67,7 +68,7 @@ public class OrderMessagingDataMapper {
 										.setId(orderItem.getProduct().getId().getValue().toString())
 										.setQuantity(orderItem.getQuantity())
 										.build()
-						).toList()
+						).collect(Collectors.toList())
 				)
 				.build();
 	}

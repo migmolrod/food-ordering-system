@@ -1,5 +1,6 @@
 package ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository;
 
+import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderId;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
 import ovh.migmolrod.food.ordering.system.order.service.domain.valueobject.TrackingId;
 
@@ -10,5 +11,7 @@ public interface OrderRepository {
 	Order save(Order order);
 
 	Optional<Order> findByTrackingId(TrackingId trackingId);
+
+	Optional<Order> findById(OrderId orderId);
 
 }
