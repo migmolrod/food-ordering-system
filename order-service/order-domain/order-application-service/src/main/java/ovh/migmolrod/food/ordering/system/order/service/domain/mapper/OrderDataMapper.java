@@ -17,6 +17,7 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.valueobject.Stree
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderDataMapper {
@@ -28,7 +29,7 @@ public class OrderDataMapper {
 						createOrderCommand.getItems()
 								.stream()
 								.map(orderItem -> new Product(new ProductId(orderItem.getProductId())))
-								.toList()
+								.collect(Collectors.toList())
 				)
 				.build();
 	}
@@ -78,7 +79,7 @@ public class OrderDataMapper {
 								.quantity(orderItem.getQuantity())
 								.subTotal(new Money(orderItem.getSubTotal()))
 								.build()
-				).toList();
+				).collect(Collectors.toList());
 	}
 
 }

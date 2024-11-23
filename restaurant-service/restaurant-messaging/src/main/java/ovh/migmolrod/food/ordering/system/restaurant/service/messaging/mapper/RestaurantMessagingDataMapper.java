@@ -12,6 +12,7 @@ import ovh.migmolrod.food.ordering.system.restaurant.service.domain.event.OrderA
 import ovh.migmolrod.food.ordering.system.restaurant.service.domain.event.OrderRejectedEvent;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class RestaurantMessagingDataMapper {
@@ -63,7 +64,7 @@ public class RestaurantMessagingDataMapper {
 										.productId(new ProductId(UUID.fromString(product.getId())))
 										.quantity(product.getQuantity())
 										.build()
-						).toList()
+						).collect(Collectors.toList())
 				)
 				.price(restaurantApprovalRequestAvroModel.getPrice())
 				.createdAt(restaurantApprovalRequestAvroModel.getCreatedAt())

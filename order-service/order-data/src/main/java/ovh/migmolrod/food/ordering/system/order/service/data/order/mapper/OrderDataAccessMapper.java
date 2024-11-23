@@ -16,6 +16,7 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.valueobject.Track
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderDataAccessMapper {
@@ -64,7 +65,7 @@ public class OrderDataAccessMapper {
 						.price(orderItem.getPrice().getAmount())
 						.subTotal(orderItem.getSubTotal().getAmount())
 						.build()
-		).toList();
+		).collect(Collectors.toList());
 	}
 
 	private OrderAddressEntity deliveryAddressToOrderAddressEntity(StreetAddress deliveryAddress) {
@@ -85,7 +86,7 @@ public class OrderDataAccessMapper {
 						.quantity(orderItemEntity.getQuantity())
 						.subTotal(new Money(orderItemEntity.getSubTotal()))
 						.build()
-		).toList();
+		).collect(Collectors.toList());
 	}
 
 	private StreetAddress orderAddressEntityToDeliveryAddress(OrderAddressEntity address) {
