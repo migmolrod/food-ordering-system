@@ -57,7 +57,7 @@ public class PaymentRequestHelper {
 	}
 
 	@Transactional
-	public PaymentEvent persistPayment(PaymentRequest paymentRequest) {
+	public void persistPayment(PaymentRequest paymentRequest) {
 		log.info("Received payment completion for order id {}", paymentRequest.getOrderId());
 
 		Payment payment = paymentDataMapper.paymentRequestModelToPayment(paymentRequest);
@@ -74,12 +74,10 @@ public class PaymentRequestHelper {
 				paymentFailedMessagePublisher
 		);
 		persistDatabaseObjects(payment, failureMessages, creditEntry, creditHistories);
-
-		return paymentEvent;
 	}
 
 	@Transactional
-	public PaymentEvent persistCancelPayment(PaymentRequest paymentRequest) {
+	public void persistCancelPayment(PaymentRequest paymentRequest) {
 		log.info("Received payment rollback for order id {}", paymentRequest.getOrderId());
 		Optional<Payment> savedPayment = paymentRepository.findByOrderId(UUID.fromString(paymentRequest.getOrderId()));
 
@@ -103,8 +101,6 @@ public class PaymentRequestHelper {
 		);
 
 		persistDatabaseObjects(payment, failureMessages, creditEntry, creditHistories);
-
-		return paymentEvent;
 	}
 
 	private CreditEntry getCreditEntry(CustomerId customerId) {

@@ -2,17 +2,17 @@ package ovh.migmolrod.food.ordering.system.order.service.messaging.publisher.kaf
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ovh.migmolrod.food.ordering.system.domain.event.publisher.DomainEventPublisher;
 import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
 import ovh.migmolrod.food.ordering.system.kafka.producer.helper.KafkaMessageHelper;
 import ovh.migmolrod.food.ordering.system.kafka.producer.service.KafkaProducer;
 import ovh.migmolrod.food.ordering.system.order.service.domain.config.OrderServiceConfigData;
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
-import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import ovh.migmolrod.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper;
 
 @Slf4j
 @Component
-public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequestMessagePublisher {
+public class CreateOrderKafkaMessagePublisher implements DomainEventPublisher<OrderCreatedEvent> {
 
 	private final OrderMessagingDataMapper orderMessagingDataMapper;
 	private final OrderServiceConfigData orderServiceConfigData;

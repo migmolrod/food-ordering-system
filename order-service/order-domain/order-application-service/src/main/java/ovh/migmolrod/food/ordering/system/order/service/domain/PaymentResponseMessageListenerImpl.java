@@ -23,16 +23,15 @@ public class PaymentResponseMessageListenerImpl implements PaymentResponseMessag
 
 	@Override
 	public void paymentCompleted(PaymentResponse paymentResponse) {
-		OrderPaidEvent event = orderPaymentSaga.process(paymentResponse);
-		log.info("Publishing OrderPaidEvent for order id {}", paymentResponse.getOrderId());
-		event.fire();
+		orderPaymentSaga.process(paymentResponse);
+		log.info("Order payment saga process operation is completed for order with id: {}", paymentResponse.getOrderId());
 	}
 
 	@Override
 	public void paymentCancelled(PaymentResponse paymentResponse) {
 		orderPaymentSaga.rollback(paymentResponse);
 		log.info(
-				"Rollback for order payment id {}. Failure messages: {}",
+				"Order payment saga rollback operation is completed for order payment id {}. Failure messages: {}",
 				paymentResponse.getOrderId(), String.join(FAILURE_MESSAGE_DELIMITER, paymentResponse.getFailureMessages())
 		);
 	}

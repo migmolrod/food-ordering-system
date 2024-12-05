@@ -35,8 +35,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService {
 					restaurant.getOrderApproval(),
 					restaurant.getId(),
 					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
-					failureMessages,
-					orderApprovedEventDomainEventPublisher
+					failureMessages
 			);
 		} else {
 			log.info("Rejected order with id {}", restaurant.getOrderDetail().getId().getValue());
@@ -46,8 +45,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService {
 					restaurant.getOrderApproval(),
 					restaurant.getId(),
 					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
-					failureMessages,
-					orderRejectedEventDomainEventPublisher
+					failureMessages
 			);
 		}
 	}

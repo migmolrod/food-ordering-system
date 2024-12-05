@@ -1,10 +1,7 @@
 package ovh.migmolrod.food.ordering.system.order.service.domain.mapper;
 
 import org.springframework.stereotype.Component;
-import ovh.migmolrod.food.ordering.system.domain.valueobject.CustomerId;
-import ovh.migmolrod.food.ordering.system.domain.valueobject.Money;
-import ovh.migmolrod.food.ordering.system.domain.valueobject.ProductId;
-import ovh.migmolrod.food.ordering.system.domain.valueobject.RestaurantId;
+import ovh.migmolrod.food.ordering.system.domain.valueobject.*;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.OrderAddress;
@@ -13,6 +10,12 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.OrderItem;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Product;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Restaurant;
+import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
+import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
+import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderPaidEvent;
+import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
+import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventProduct;
+import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import ovh.migmolrod.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 
 import java.util.List;
@@ -56,6 +59,44 @@ public class OrderDataMapper {
 				.orderTrackingId(order.getTrackingId().getValue())
 				.orderStatus(order.getStatus())
 				.message(message)
+				.build();
+	}
+
+	public OrderPaymentEventPayload orderCreatedEventToOrderPaymentEventPayload(OrderCreatedEvent event) {
+		return OrderPaymentEventPayload.builder()
+				.orderId(event.getOrder().getId().getValue().toString())
+				.customerId(event.getOrder().getCustomerId().getValue().toString())
+				.price(event.getOrder().getPrice().getAmount())
+				.createdAt(event.getCreatedAt())
+				.paymentOrderStatus(PaymentOrderStatus.PENDING.name())
+				.build();
+	}
+
+	public OrderPaymentEventPayload orderCancelledEventToOrderPaymentEventPayload(OrderCancelledEvent event) {
+		return OrderPaymentEventPayload.builder()
+				.orderId(event.getOrder().getId().getValue().toString())
+				.customerId(event.getOrder().getCustomerId().getValue().toString())
+				.price(event.getOrder().getPrice().getAmount())
+				.createdAt(event.getCreatedAt())
+				.paymentOrderStatus(PaymentOrderStatus.CANCELLED.name())
+				.build();
+	}
+
+	public OrderApprovalEventPayload orderPaidEventToOrderApprovalEventPayload(OrderPaidEvent event) {
+		return OrderApprovalEventPayload.builder()
+				.orderId(event.getOrder().getId().getValue().toString())
+				.restaurantId(event.getOrder().getRestaurantId().getValue().toString())
+				.restaurantOrderStatus(RestaurantOrderStatus.PAID.name())
+				.products(event.getOrder().getItems().stream()
+						.map(item ->
+								OrderApprovalEventProduct.builder()
+										.id(item.getId().getValue().toString())
+										.quantity(item.getQuantity())
+										.build()
+						)
+						.collect(Collectors.toList()))
+				.price(event.getOrder().getPrice().getAmount())
+				.createdAt(event.getCreatedAt())
 				.build();
 	}
 

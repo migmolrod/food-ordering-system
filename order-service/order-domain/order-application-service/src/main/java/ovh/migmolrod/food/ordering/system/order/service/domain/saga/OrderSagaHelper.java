@@ -3,9 +3,11 @@ package ovh.migmolrod.food.ordering.system.order.service.domain.saga;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderId;
+import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderStatus;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
 import ovh.migmolrod.food.ordering.system.order.service.domain.exception.OrderNotFoundException;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
+import ovh.migmolrod.food.ordering.system.saga.SagaStatus;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -28,8 +30,18 @@ public class OrderSagaHelper {
 		return order.get();
 	}
 
-	void saveOrder(Order order) {
+	public void saveOrder(Order order) {
 		orderRepository.save(order);
+	}
+
+	public SagaStatus orderStatusToSagaStatus(OrderStatus orderStatus) {
+		return switch (orderStatus) {
+			case PAID -> SagaStatus.PROCESSING;
+			case APPROVED -> SagaStatus.SUCCEEDED;
+			case CANCELLING -> SagaStatus.COMPENSATING;
+			case CANCELLED -> SagaStatus.COMPENSATED;
+			default -> SagaStatus.STARTED;
+		};
 	}
 
 }

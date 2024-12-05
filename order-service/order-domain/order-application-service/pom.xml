@@ -28,6 +28,10 @@
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>saga</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>outbox</artifactId>
+		</dependency>
 		<!-- External dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -36,6 +40,10 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-json</artifactId>
 		</dependency>
 		<!-- Testing -->
 		<dependency>
