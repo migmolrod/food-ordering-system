@@ -7,9 +7,7 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.OrderDomainServic
 import ovh.migmolrod.food.ordering.system.order.service.domain.OrderDomainServiceImpl;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.message.publisher.approval.ApprovalRequestMessagePublisher;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.PaymentRequestMessagePublisher;
-import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
-import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
-import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
+import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.*;
 
 @SpringBootApplication(scanBasePackages = "ovh.migmolrod.food.ordering.system")
 public class OrderTestConfiguration {
@@ -37,6 +35,16 @@ public class OrderTestConfiguration {
 	@Bean
 	public RestaurantRepository restaurantRepository() {
 		return Mockito.mock(RestaurantRepository.class);
+	}
+
+	@Bean
+	public PaymentOutboxRepository paymentOutboxRepository() {
+		return Mockito.mock(PaymentOutboxRepository.class);
+	}
+
+	@Bean
+	public ApprovalOutboxRepository approvalOutboxRepository() {
+		return Mockito.mock(ApprovalOutboxRepository.class);
 	}
 
 	@Bean
