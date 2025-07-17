@@ -193,8 +193,8 @@ public class OrderApplicationServiceTest {
 				() -> orderApplicationService.createOrder(createOrderCommandWrongPrice)
 		);
 		Assertions.assertEquals(
-				orderDomainException.getMessage(),
-				"Total price (250.00) does not match the sum of all items prices (200.00)"
+				"Total price (250.00) does not match the sum of all items prices (200.00)",
+				orderDomainException.getMessage()
 		);
 	}
 

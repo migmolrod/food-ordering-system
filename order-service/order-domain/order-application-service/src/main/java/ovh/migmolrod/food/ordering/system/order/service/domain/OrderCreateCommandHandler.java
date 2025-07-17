@@ -3,7 +3,6 @@ package ovh.migmolrod.food.ordering.system.order.service.domain;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderStatus;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
@@ -11,7 +10,6 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.mapper.OrderDataM
 import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.scheduler.payment.PaymentOutboxHelper;
 import ovh.migmolrod.food.ordering.system.order.service.domain.saga.OrderSagaHelper;
 import ovh.migmolrod.food.ordering.system.outbox.OutboxStatus;
-import ovh.migmolrod.food.ordering.system.saga.SagaStatus;
 
 import java.util.UUID;
 
