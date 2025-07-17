@@ -1,6 +1,8 @@
 package ovh.migmolrod.food.ordering.system.order.service.data.outbox.payment.adapter;
 
+import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.order.service.data.outbox.payment.entity.PaymentOutboxEntity;
+import ovh.migmolrod.food.ordering.system.order.service.data.outbox.payment.exception.PaymentOutboxNotFoundException;
 import ovh.migmolrod.food.ordering.system.order.service.data.outbox.payment.mapper.PaymentOutboxDataMapper;
 import ovh.migmolrod.food.ordering.system.order.service.data.outbox.payment.repository.PaymentOutboxJpaRepository;
 import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
@@ -8,24 +10,29 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repo
 import ovh.migmolrod.food.ordering.system.outbox.OutboxStatus;
 import ovh.migmolrod.food.ordering.system.saga.SagaStatus;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Component
 public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 
-	private final PaymentOutboxJpaRepository jpaRepository;
+	private final PaymentOutboxJpaRepository paymentOutboxJpaRepository;
 	private final PaymentOutboxDataMapper dataMapper;
 
-	public PaymentOutboxRepositoryImpl(PaymentOutboxJpaRepository jpaRepository, PaymentOutboxDataMapper dataMapper) {
-		this.jpaRepository = jpaRepository;
+	public PaymentOutboxRepositoryImpl(
+			PaymentOutboxJpaRepository paymentOutboxJpaRepository,
+			PaymentOutboxDataMapper dataMapper
+	) {
+		this.paymentOutboxJpaRepository = paymentOutboxJpaRepository;
 		this.dataMapper = dataMapper;
 	}
 
 	@Override
 	public OrderPaymentOutboxMessage save(OrderPaymentOutboxMessage message) {
-		PaymentOutboxEntity savedEntity = this.jpaRepository.save(dataMapper.messageToEntity(message));
+		PaymentOutboxEntity savedEntity = this.paymentOutboxJpaRepository.save(dataMapper.messageToEntity(message));
 
 		return dataMapper.entityToMessage(savedEntity);
 	}
@@ -36,13 +43,14 @@ public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 			OutboxStatus outboxStatus,
 			SagaStatus... sagaStatus
 	) {
-		Optional<List<PaymentOutboxEntity>> entities = this.jpaRepository.findByTypeAndOutboxStatusAndSagaStatusIn(
-				type,
-				outboxStatus,
-				List.of(sagaStatus)
-		);
-
-		return entities.map(paymentOutboxEntities -> paymentOutboxEntities.stream().map(dataMapper::entityToMessage).collect(Collectors.toList()));
+		return Optional.of(this.paymentOutboxJpaRepository.findByTypeAndOutboxStatusAndSagaStatusIn(
+						type,
+						outboxStatus,
+						Arrays.asList(sagaStatus)
+				).orElseThrow(() -> new PaymentOutboxNotFoundException("Payment outbox object not found for saga type " + type))
+				.stream()
+				.map(dataMapper::entityToMessage)
+				.collect(Collectors.toList()));
 	}
 
 	@Override
@@ -51,7 +59,8 @@ public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 			UUID sagaId,
 			SagaStatus... sagaStatus
 	) {
-		return Optional.empty();
+		return paymentOutboxJpaRepository.findByTypeAndSagaIdAndSagaStatusIn(type, sagaId, Arrays.asList(sagaStatus))
+				.map(dataMapper::entityToMessage);
 	}
 
 	@Override
@@ -60,10 +69,10 @@ public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 			OutboxStatus outboxStatus,
 			SagaStatus... sagaStatus
 	) {
-		this.jpaRepository.deleteByTypeAndOutboxStatusAndSagaStatusIn(
+		this.paymentOutboxJpaRepository.deleteByTypeAndOutboxStatusAndSagaStatusIn(
 				type,
 				outboxStatus,
-				List.of(sagaStatus)
+				Arrays.asList(sagaStatus)
 		);
 	}
 
