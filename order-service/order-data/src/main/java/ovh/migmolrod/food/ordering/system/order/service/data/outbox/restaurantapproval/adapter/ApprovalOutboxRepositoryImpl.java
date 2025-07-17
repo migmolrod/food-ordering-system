@@ -1,4 +1,4 @@
-package ovh.migmolrod.food.ordering.system.order.service.data.outbox.restaurantapproval;
+package ovh.migmolrod.food.ordering.system.order.service.data.outbox.restaurantapproval.adapter;
 
 import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalOutboxMessage;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.ApprovalOutboxRepository;
