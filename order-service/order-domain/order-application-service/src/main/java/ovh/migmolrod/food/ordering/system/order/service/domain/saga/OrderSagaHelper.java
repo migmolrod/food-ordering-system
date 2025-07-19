@@ -23,7 +23,7 @@ public class OrderSagaHelper {
 	public Order findOrder(String orderId) {
 		Optional<Order> order = orderRepository.findById(new OrderId(UUID.fromString(orderId)));
 		if (order.isEmpty()) {
-			String errorMessage = String.format("Order with id %s could not be found!", orderId);
+			String errorMessage = String.format("Order with id '%s' could not be found!", orderId);
 			log.error(errorMessage);
 			throw new OrderNotFoundException(errorMessage);
 		}

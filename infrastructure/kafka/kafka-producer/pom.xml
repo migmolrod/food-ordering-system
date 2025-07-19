@@ -18,6 +18,10 @@
 		<!-- Internal dependencies -->
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>outbox</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>kafka-model</artifactId>
 		</dependency>
 		<dependency>
