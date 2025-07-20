@@ -14,7 +14,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "paymennt_outbox")
+@Table(name = "payment_outbox")
 @Entity
 public class PaymentOutboxEntity {
 	@Id

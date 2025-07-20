@@ -1,5 +1,6 @@
 package ovh.migmolrod.food.ordering.system.order.service.data.outbox.restaurantapproval.adapter;
 
+import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.order.service.data.outbox.restaurantapproval.entity.ApprovalOutboxEntity;
 import ovh.migmolrod.food.ordering.system.order.service.data.outbox.restaurantapproval.exception.ApprovalOutboxNotFoundException;
 import ovh.migmolrod.food.ordering.system.order.service.data.outbox.restaurantapproval.mapper.ApprovalOutboxDataMapper;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Component
 public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
 
 	private final ApprovalOutboxJpaRepository approvalOutboxJpaRepository;
