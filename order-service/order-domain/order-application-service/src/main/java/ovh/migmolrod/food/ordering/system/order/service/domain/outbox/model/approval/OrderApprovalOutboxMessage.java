@@ -24,7 +24,7 @@ public class OrderApprovalOutboxMessage {
 	private SagaStatus sagaStatus;
 	private OrderStatus orderStatus;
 	private OutboxStatus outboxStatus;
-	private Integer version;
+	private int version;
 
 	public void setProcessedAt(ZonedDateTime processedAt) {
 		this.processedAt = processedAt;
