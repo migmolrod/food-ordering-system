@@ -33,9 +33,9 @@ public class OrderPaymentSagaTest {
 
 	@Test
 	void testDoublePayment() {
+		// TODO improve tests with actual assertions
 		orderPaymentSaga.process(getPaymentResponse());
 		orderPaymentSaga.process(getPaymentResponse());
-
 	}
 
 	private PaymentResponse getPaymentResponse() {
