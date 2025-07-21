@@ -82,7 +82,7 @@ public class PaymentOutboxHelper {
 			throw new OrderDomainException(errorMessage);
 		}
 
-		log.info("OrderPaymentOutboxMessage saved with id: {}", response.getId());
+		log.info("OrderPaymentOutboxMessage saved with saga id: {}", response.getSagaId());
 		return response;
 	}
 

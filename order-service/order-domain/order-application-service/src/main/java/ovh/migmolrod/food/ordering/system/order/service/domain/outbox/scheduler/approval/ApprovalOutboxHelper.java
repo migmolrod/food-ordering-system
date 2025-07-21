@@ -82,7 +82,7 @@ public class ApprovalOutboxHelper {
 			throw new OrderDomainException(errorMessage);
 		}
 
-		log.info("OrderApprovalOutboxMessage saved with outbox id: {}", response.getId());
+		log.info("OrderApprovalOutboxMessage saved with saga id: {}", response.getSagaId());
 		return response;
 	}
 
@@ -111,7 +111,7 @@ public class ApprovalOutboxHelper {
 			return objectMapper.writeValueAsString(orderApprovalEventPayload);
 		} catch (JsonProcessingException e) {
 			String errorMessage = String.format(
-					"Could not map object orderApprovalEventPayload to JSON for order with id: %s",
+					"Could not map object OrderApprovalEventPayload to JSON for order with id: %s",
 					orderApprovalEventPayload.getOrderId()
 			);
 			log.error(errorMessage, e);
