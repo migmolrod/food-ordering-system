@@ -5,13 +5,30 @@ DROP SCHEMA IF EXISTS restaurant CASCADE;
 
 CREATE SCHEMA restaurant;
 
+
+-- ################################################################
+-- EXTENSIONS
+-- ################################################################
+
+-- uuid-ossp
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- ################################################################
--- RESTAURANTS TABLE
--- ################################################################
-DROP TABLE IF EXISTS restaurant.restaurants;
 
+-- ################################################################
+-- TYPES
+-- ################################################################
+
+-- approval status
+DROP TYPE IF EXISTS approval_status;
+CREATE TYPE approval_status AS ENUM ('APPROVED', 'REJECTED');
+
+
+-- ################################################################
+-- TABLES
+-- ################################################################
+
+-- restaurants
+DROP TABLE IF EXISTS restaurant.restaurants;
 CREATE TABLE restaurant.restaurants
 (
     id     UUID                                           NOT NULL,
@@ -20,11 +37,8 @@ CREATE TABLE restaurant.restaurants
     CONSTRAINT pk_restaurant PRIMARY KEY (id)
 );
 
--- ################################################################
--- PRODUCTS TABLE
--- ################################################################
+-- products
 DROP TABLE IF EXISTS restaurant.products;
-
 CREATE TABLE restaurant.products
 (
     id        UUID                                           NOT NULL,
@@ -34,11 +48,8 @@ CREATE TABLE restaurant.products
     CONSTRAINT pk_product PRIMARY KEY (id)
 );
 
--- ################################################################
--- RESTAURANT PRODUCTS TABLE (RELATION)
--- ################################################################
+-- restaurant products
 DROP TABLE IF EXISTS restaurant.restaurant_products;
-
 CREATE TABLE restaurant.restaurant_products
 (
     id            UUID NOT NULL,
@@ -61,12 +72,7 @@ ALTER TABLE restaurant.restaurant_products
         ON DELETE RESTRICT
         NOT VALID;
 
--- ################################################################
--- ORDER APPROVALS TABLE
--- ################################################################
-DROP TYPE IF EXISTS approval_status;
-CREATE TYPE approval_status AS ENUM ('APPROVED', 'REJECTED');
-
+-- order approvals
 DROP TABLE IF EXISTS restaurant.order_approvals;
 CREATE TABLE restaurant.order_approvals
 (
@@ -77,9 +83,12 @@ CREATE TABLE restaurant.order_approvals
     CONSTRAINT pk_restaurant_approvals PRIMARY KEY (id)
 );
 
+
 -- ################################################################
--- ORDER RESTAURANT MATERIALIZED VIEW
+-- MATERIALIZED VIEWS
 -- ################################################################
+
+-- order restaurant
 DROP MATERIALIZED VIEW IF EXISTS restaurant.order_restaurant_m_view;
 
 CREATE MATERIALIZED VIEW restaurant.order_restaurant_m_view TABLESPACE pg_default AS
@@ -94,12 +103,15 @@ FROM restaurant.restaurants r
          join restaurant.restaurant_products rp on r.id = rp.restaurant_id
          join restaurant.products p on rp.product_id = p.id
 WITH DATA;
-
 REFRESH MATERIALIZED VIEW restaurant.order_restaurant_m_view;
 
--- FUNCTION TO REFRESH MATERIALIZED VIEW
-DROP FUNCTION IF EXISTS restaurant.refresh_order_restaurant_m_view();
 
+-- ################################################################
+-- FUNCTIONS
+-- ################################################################
+
+-- refresh order restaurant mv
+DROP FUNCTION IF EXISTS restaurant.refresh_order_restaurant_m_view();
 CREATE OR REPLACE FUNCTION restaurant.refresh_order_restaurant_m_view()
     RETURNS trigger
 AS
@@ -110,9 +122,13 @@ AS
     END;
 ' LANGUAGE plpgsql;
 
--- TRIGGER TO REFRESH MATERIALIZED VIEW
-DROP TRIGGER IF EXISTS refresh_order_restaurant_m_view_trigger ON restaurant.restaurant_products;
 
+-- ################################################################
+-- TRIGGER
+-- ################################################################
+
+-- refresh order restaurant mv
+DROP TRIGGER IF EXISTS refresh_order_restaurant_m_view_trigger ON restaurant.restaurant_products;
 CREATE TRIGGER refresh_order_restaurant_m_view_trigger
     AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE
     ON restaurant.restaurant_products

@@ -1,12 +1,33 @@
+-- ################################################################
+-- SCHEMA
+-- ################################################################
 DROP SCHEMA IF EXISTS "order" CASCADE;
 
 CREATE SCHEMA "order";
 
+
+-- ################################################################
+-- EXTENSIONS
+-- ################################################################
+
+-- uuid-ossp
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+
+-- ################################################################
+-- TYPES
+-- ################################################################
+
+-- order status
 DROP TYPE IF EXISTS order_status;
 CREATE TYPE order_status AS ENUM ('PENDING','PAID','APPROVED','CANCELLING','CANCELLED');
 
+
+-- ################################################################
+-- TABLES
+-- ################################################################
+
+-- orders
 DROP TABLE IF EXISTS "order".orders;
 CREATE TABLE "order".orders
 (
@@ -20,6 +41,7 @@ CREATE TABLE "order".orders
     CONSTRAINT pk_order PRIMARY KEY (id)
 );
 
+--order items
 DROP TABLE IF EXISTS "order".order_items;
 CREATE TABLE "order".order_items
 (
@@ -39,6 +61,7 @@ ALTER TABLE "order".order_items
         ON DELETE CASCADE
         NOT VALID;
 
+-- order addresses
 DROP TABLE IF EXISTS "order".order_addresses;
 CREATE TABLE "order".order_addresses
 (
@@ -57,16 +80,25 @@ ALTER TABLE "order".order_addresses
         ON DELETE CASCADE
         NOT VALID;
 
-/* ================================================================ */
-/* OUTBOX */
-/* ================================================================ */
 
+-- ################################################################
+-- OUTBOX TYPES
+-- ################################################################
+
+-- saga status
 DROP TYPE IF EXISTS saga_status;
 CREATE TYPE saga_status AS ENUM ('STARTED', 'FAILED', 'SUCCEEDED', 'PROCESSING', 'COMPENSATING', 'COMPENSATED');
 
+-- outbox status
 DROP TYPE IF EXISTS outbox_status;
 CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
 
+
+-- ################################################################
+-- OUTBOX TABLES
+-- ################################################################
+
+-- payment outbox
 DROP TABLE IF EXISTS "order".payment_outbox CASCADE;
 CREATE TABLE "order".payment_outbox
 (
@@ -84,9 +116,10 @@ CREATE TABLE "order".payment_outbox
 );
 CREATE INDEX "idx_payment_outbox_saga_status"
     ON "order".payment_outbox (type, outbox_status, saga_status);
-CREATE INDEX "idx_payment_outbox_saga_id"
-    ON "order".payment_outbox (type, saga_id, saga_status);
+--CREATE INDEX "idx_payment_outbox_saga_id"
+--    ON "order".payment_outbox (type, saga_id, saga_status);
 
+-- restaurant approval outbox
 DROP TABLE IF EXISTS "order".restaurant_approval_outbox CASCADE;
 CREATE TABLE "order".restaurant_approval_outbox
 (
@@ -104,5 +137,5 @@ CREATE TABLE "order".restaurant_approval_outbox
 );
 CREATE INDEX "idx_restaurant_approval_outbox_saga_status"
     ON "order".restaurant_approval_outbox (type, outbox_status, saga_status);
-CREATE INDEX "idx_restaurant_approval_outbox_saga_id"
-    ON "order".restaurant_approval_outbox (type, saga_id, saga_status);
+--CREATE INDEX "idx_restaurant_approval_outbox_saga_id"
+--    ON "order".restaurant_approval_outbox (type, saga_id, saga_status);

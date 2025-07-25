@@ -28,6 +28,8 @@ spring:
 payment-service:
   payment-request-topic-name: payment-request
   payment-response-topic-name: payment-response
+  outbox-scheduler-fixed-rate: 10000
+  outbox-scheduler-initial-delay: 10000
 
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092

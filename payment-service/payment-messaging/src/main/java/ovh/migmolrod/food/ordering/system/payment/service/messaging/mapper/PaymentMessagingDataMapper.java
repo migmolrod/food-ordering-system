@@ -6,38 +6,14 @@ import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentRequestA
 import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
 import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.PaymentStatus;
 import ovh.migmolrod.food.ordering.system.payment.service.domain.dto.message.PaymentRequest;
-import ovh.migmolrod.food.ordering.system.payment.service.domain.entity.Payment;
-import ovh.migmolrod.food.ordering.system.payment.service.domain.event.PaymentCancelledEvent;
-import ovh.migmolrod.food.ordering.system.payment.service.domain.event.PaymentCompletedEvent;
-import ovh.migmolrod.food.ordering.system.payment.service.domain.event.PaymentEvent;
-import ovh.migmolrod.food.ordering.system.payment.service.domain.event.PaymentFailedEvent;
+import ovh.migmolrod.food.ordering.system.payment.service.domain.outbox.model.OrderEventPayload;
 
 import java.util.UUID;
 
 @Component
 public class PaymentMessagingDataMapper {
 
-	public PaymentResponseAvroModel paymentCompletedEventToPaymentResponseAvroModel(
-			PaymentCompletedEvent paymentCompletedEvent
-	) {
-		return getPaymentResponseAvroModel(paymentCompletedEvent);
-	}
-
-	public PaymentResponseAvroModel paymentCancelledEventToPaymentResponseAvroModel(
-			PaymentCancelledEvent paymentCancelledEvent
-	) {
-		return getPaymentResponseAvroModel(paymentCancelledEvent);
-	}
-
-	public PaymentResponseAvroModel paymentFailedEventToPaymentResponseAvroModel(
-			PaymentFailedEvent paymentFailedEvent
-	) {
-		return getPaymentResponseAvroModel(paymentFailedEvent);
-	}
-
-	public PaymentRequest paymentRequestAvroModelToPaymentRequest(
-			PaymentRequestAvroModel paymentRequestAvroModel
-	) {
+	public PaymentRequest paymentRequestAvroModelToPaymentRequest(PaymentRequestAvroModel paymentRequestAvroModel) {
 		return PaymentRequest.builder()
 				.id(paymentRequestAvroModel.getId())
 				.sagaId(paymentRequestAvroModel.getSagaId())
@@ -49,21 +25,17 @@ public class PaymentMessagingDataMapper {
 				.build();
 	}
 
-	private PaymentResponseAvroModel getPaymentResponseAvroModel(
-			PaymentEvent event
-	) {
-		Payment payment = event.getPayment();
-
+	public PaymentResponseAvroModel orderEventPayloadToPaymentResponseAvroModel(String sagaId, OrderEventPayload payload) {
 		return PaymentResponseAvroModel.newBuilder()
 				.setId(UUID.randomUUID().toString())
-				.setSagaId("")
-				.setPaymentId(payment.getId().getValue().toString())
-				.setCustomerId(payment.getCustomerId().getValue().toString())
-				.setOrderId(payment.getOrderId().getValue().toString())
-				.setPrice(payment.getPrice().getAmount())
-				.setCreatedAt(payment.getCreatedAt().toInstant())
-				.setPaymentStatus(PaymentStatus.valueOf(payment.getPaymentStatus().name()))
-				.setFailureMessages(event.getFailureMessages())
+				.setSagaId(sagaId)
+				.setPaymentId(payload.getPaymentId())
+				.setCustomerId(payload.getCustomerId())
+				.setOrderId(payload.getOrderId())
+				.setPrice(payload.getPrice())
+				.setCreatedAt(payload.getCreatedAt().toInstant())
+				.setPaymentStatus(PaymentStatus.valueOf(payload.getPaymentStatus()))
+				.setFailureMessages(payload.getFailureMessages())
 				.build();
 	}
 
