@@ -59,7 +59,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 						SagaStatus.STARTED
 				);
 		if (orderPaymentOutboxMessageResponse.isEmpty()) {
-			log.info("An outbox message with saga id {} is already processed!", paymentResponse.getSagaId());
+			log.info("A payment outbox message with saga id {} is already processed!", paymentResponse.getSagaId());
 			return;
 		}
 		OrderPaymentOutboxMessage orderPaymentOutboxMessage = orderPaymentOutboxMessageResponse.get();

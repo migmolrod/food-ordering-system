@@ -1,18 +1,25 @@
 package ovh.migmolrod.food.ordering.system.order.service.domain;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+import ovh.migmolrod.food.ordering.system.order.service.data.outbox.payment.entity.PaymentOutboxEntity;
 import ovh.migmolrod.food.ordering.system.order.service.data.outbox.payment.repository.PaymentOutboxJpaRepository;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import ovh.migmolrod.food.ordering.system.order.service.domain.saga.OrderPaymentSaga;
+import ovh.migmolrod.food.ordering.system.saga.SagaStatus;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import static ovh.migmolrod.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
 
 @Slf4j
 @SpringBootTest(classes = {OrderServiceApplication.class})
@@ -33,9 +40,28 @@ public class OrderPaymentSagaTest {
 
 	@Test
 	void testDoublePayment() {
-		// TODO improve tests with actual assertions
-		orderPaymentSaga.process(getPaymentResponse());
-		orderPaymentSaga.process(getPaymentResponse());
+		orderPaymentSaga.process(this.getPaymentResponse());
+		orderPaymentSaga.process(this.getPaymentResponse());
+
+		this.assertPaymentOutbox();
+	}
+
+	@Test
+	void testDoublePaymentWithThreads() {
+		Thread thread1 = new Thread(() -> this.orderPaymentSaga.process(this.getPaymentResponse()));
+		Thread thread2 = new Thread(() -> this.orderPaymentSaga.process(this.getPaymentResponse()));
+
+		thread1.start();
+		thread2.start();
+
+		try {
+			thread1.join();
+			thread2.join();
+
+			this.assertPaymentOutbox();
+		} catch (InterruptedException e) {
+			log.error("Error while waiting for threads to finish", e);
+		}
 	}
 
 	private PaymentResponse getPaymentResponse() {
@@ -50,6 +76,17 @@ public class OrderPaymentSagaTest {
 				.createdAt(Instant.now())
 				.failureMessages(new ArrayList<>())
 				.build();
+	}
+
+	private void assertPaymentOutbox() {
+		Optional<PaymentOutboxEntity> outboxEntity =
+				this.paymentOutboxJpaRepository.findByTypeAndSagaIdAndSagaStatusIn(
+						ORDER_SAGA_NAME,
+						SAGA_ID,
+						List.of(SagaStatus.PROCESSING)
+				);
+		Assertions.assertTrue(outboxEntity.isPresent());
+		Assertions.assertEquals(SAGA_ID, outboxEntity.get().getSagaId());
 	}
 
 }
