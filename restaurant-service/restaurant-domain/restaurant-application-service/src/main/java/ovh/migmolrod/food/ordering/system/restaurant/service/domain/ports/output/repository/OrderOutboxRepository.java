@@ -1,6 +1,5 @@
 package ovh.migmolrod.food.ordering.system.restaurant.service.domain.ports.output.repository;
 
-import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderApprovalStatus;
 import ovh.migmolrod.food.ordering.system.outbox.OutboxStatus;
 import ovh.migmolrod.food.ordering.system.restaurant.service.domain.outbox.model.OrderOutboxMessage;
 
@@ -10,10 +9,9 @@ import java.util.UUID;
 
 public interface OrderOutboxRepository {
 
-	Optional<OrderOutboxMessage> findByTypeAndSagaIdAndApprovalStatusAndOutboxStatus(
+	Optional<OrderOutboxMessage> findByTypeAndSagaIdAndOutboxStatus(
 			String orderSagaName,
 			UUID sagaId,
-			OrderApprovalStatus approvalStatus,
 			OutboxStatus outboxStatus
 	);
 

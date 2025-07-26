@@ -73,11 +73,10 @@ public class OrderOutboxHelper {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<OrderOutboxMessage> getCompleted(UUID sagaId, OrderApprovalStatus approvalStatus) {
-		return this.orderOutboxRepository.findByTypeAndSagaIdAndApprovalStatusAndOutboxStatus(
+	public Optional<OrderOutboxMessage> getCompleted(UUID sagaId) {
+		return this.orderOutboxRepository.findByTypeAndSagaIdAndOutboxStatus(
 				ORDER_SAGA_NAME,
 				sagaId,
-				approvalStatus,
 				OutboxStatus.COMPLETED
 		);
 	}
