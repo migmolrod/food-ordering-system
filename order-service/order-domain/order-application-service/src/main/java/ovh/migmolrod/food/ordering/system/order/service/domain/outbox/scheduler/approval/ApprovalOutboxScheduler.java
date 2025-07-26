@@ -52,7 +52,7 @@ public class ApprovalOutboxScheduler implements OutboxScheduler {
 							.collect(Collectors.joining(","))
 			);
 			outboxMessages.forEach(approvalOutboxMessage ->
-					approvalRequestMessagePublisher.publish(approvalOutboxMessage, this::updateOutboxStatus)
+					this.approvalRequestMessagePublisher.publish(approvalOutboxMessage, this::updateOutboxStatus)
 			);
 			log.info("{} OrderApprovalOutboxMessage(s) sent to message bus!", outboxMessages.size());
 		}

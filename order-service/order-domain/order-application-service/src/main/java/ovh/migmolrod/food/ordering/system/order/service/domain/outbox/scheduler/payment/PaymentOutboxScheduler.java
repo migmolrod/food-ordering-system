@@ -52,7 +52,7 @@ public class PaymentOutboxScheduler implements OutboxScheduler {
 							.collect(Collectors.joining(","))
 			);
 			outboxMessages.forEach(orderPaymentOutboxMessage ->
-					paymentRequestMessagePublisher.publish(orderPaymentOutboxMessage, this::updateOutboxStatus)
+					this.paymentRequestMessagePublisher.publish(orderPaymentOutboxMessage, this::updateOutboxStatus)
 			);
 			log.info("{} OrderPaymentOutboxMessage(s) sent to message bus!", outboxMessages.size());
 		}
