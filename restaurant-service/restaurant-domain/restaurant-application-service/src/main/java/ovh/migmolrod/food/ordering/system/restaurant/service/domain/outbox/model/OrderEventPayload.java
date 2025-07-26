@@ -15,13 +15,9 @@ import java.util.List;
 public class OrderEventPayload {
 
 	@JsonProperty
-	private String paymentId;
-	@JsonProperty
 	private String orderId;
 	@JsonProperty
-	private String customerId;
-	@JsonProperty
-	private BigDecimal price;
+	private String restaurantId;
 	@JsonProperty
 	private ZonedDateTime createdAt;
 	@JsonProperty

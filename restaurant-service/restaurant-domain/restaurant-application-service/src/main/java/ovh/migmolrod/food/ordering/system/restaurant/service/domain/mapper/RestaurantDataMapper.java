@@ -9,6 +9,8 @@ import ovh.migmolrod.food.ordering.system.restaurant.service.domain.dto.message.
 import ovh.migmolrod.food.ordering.system.restaurant.service.domain.entity.OrderDetail;
 import ovh.migmolrod.food.ordering.system.restaurant.service.domain.entity.Product;
 import ovh.migmolrod.food.ordering.system.restaurant.service.domain.entity.Restaurant;
+import ovh.migmolrod.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
+import ovh.migmolrod.food.ordering.system.restaurant.service.domain.outbox.model.OrderEventPayload;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,6 +35,16 @@ public class RestaurantDataMapper {
 						.totalAmount(new Money(restaurantApprovalRequest.getPrice()))
 						.orderStatus(OrderStatus.valueOf(restaurantApprovalRequest.getRestaurantOrderStatus().name()))
 						.build())
+				.build();
+	}
+
+	public OrderEventPayload approvalEventToOrderEventPayload(OrderApprovalEvent orderApprovalEvent) {
+		return OrderEventPayload.builder()
+				.orderId(orderApprovalEvent.getOrderApproval().getOrderId().toString())
+				.restaurantId(orderApprovalEvent.getRestaurantId().toString())
+				.createdAt(orderApprovalEvent.getCreatedAt())
+				.approvalStatus(orderApprovalEvent.getOrderApproval().getApprovalStatus().name())
+				.failureMessages(orderApprovalEvent.getFailureMessages())
 				.build();
 	}
 

@@ -24,14 +24,6 @@ public class OrderOutboxMessage {
 	private OutboxStatus outboxStatus;
 	private int version;
 
-	public void setProcessedAt(ZonedDateTime processedAt) {
-		this.processedAt = processedAt;
-	}
-
-	public void setApprovalStatus(OrderApprovalStatus approvalStatus) {
-		this.approvalStatus = approvalStatus;
-	}
-
 	public void setOutboxStatus(OutboxStatus outboxStatus) {
 		this.outboxStatus = outboxStatus;
 	}

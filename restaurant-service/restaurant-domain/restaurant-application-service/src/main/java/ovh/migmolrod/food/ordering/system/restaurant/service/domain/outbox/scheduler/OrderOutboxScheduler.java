@@ -46,7 +46,8 @@ public class OrderOutboxScheduler implements OutboxScheduler {
 							.map(Object::toString)
 							.collect(Collectors.joining(",")));
 			outboxMessages.forEach(orderOutboxMessage ->
-					this.approvalResponseMessagePublisher.publish(orderOutboxMessage, orderOutboxHelper::updateOutboxStatus));
+					this.approvalResponseMessagePublisher.publish(orderOutboxMessage, this.orderOutboxHelper::updateOutboxStatus)
+			);
 			log.info("{} OrderOutboxMessage(s) to message bus!", outboxMessages.size());
 		}
 	}

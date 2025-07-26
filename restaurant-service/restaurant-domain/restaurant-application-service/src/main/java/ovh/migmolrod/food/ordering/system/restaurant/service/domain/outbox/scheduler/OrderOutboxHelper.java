@@ -12,13 +12,10 @@ import ovh.migmolrod.food.ordering.system.restaurant.service.domain.outbox.model
 import ovh.migmolrod.food.ordering.system.restaurant.service.domain.outbox.model.OrderOutboxMessage;
 import ovh.migmolrod.food.ordering.system.restaurant.service.domain.ports.output.repository.OrderOutboxRepository;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static ovh.migmolrod.food.ordering.system.domain.DomainConstants.DEFAULT_ZONE_ID;
 import static ovh.migmolrod.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
 
 @Slf4j
@@ -34,42 +31,6 @@ public class OrderOutboxHelper {
 	) {
 		this.orderOutboxRepository = orderOutboxRepository;
 		this.objectMapper = objectMapper;
-	}
-
-	@Transactional
-	public OrderOutboxMessage save(OrderOutboxMessage orderOutboxMessage) {
-		OrderOutboxMessage response = this.orderOutboxRepository.save(orderOutboxMessage);
-		if (response == null) {
-			String errorMessage = String.format(
-					"Could not save order outbox message with id '%s' for order with id '%s'",
-					orderOutboxMessage.getId(),
-					orderOutboxMessage.getPayload()
-			);
-			log.error(errorMessage);
-			throw new RestaurantDomainException(errorMessage);
-		}
-
-		log.info("OrderOutboxMessage saved with saga id '{}'", response.getSagaId());
-		return response;
-	}
-
-	@Transactional
-	public void saveOrderOutboxMessage(
-			OrderEventPayload orderEventPayload,
-			OrderApprovalStatus approvalStatus,
-			OutboxStatus outboxStatus,
-			UUID sagaId
-	) {
-		this.save(OrderOutboxMessage.builder()
-				.id(UUID.randomUUID())
-				.sagaId(sagaId)
-				.createdAt(orderEventPayload.getCreatedAt())
-				.processedAt(ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)))
-				.type(ORDER_SAGA_NAME)
-				.payload(this.buildPayload(orderEventPayload))
-				.approvalStatus(approvalStatus)
-				.outboxStatus(outboxStatus)
-				.build());
 	}
 
 	@Transactional(readOnly = true)
@@ -88,10 +49,31 @@ public class OrderOutboxHelper {
 
 	@Transactional
 	public void deleteByOutboxStatus(OutboxStatus outboxStatus) {
-		this.orderOutboxRepository.deleteByTypeAndOutboxStatus(
-				ORDER_SAGA_NAME,
-				outboxStatus
-		);
+		this.orderOutboxRepository.deleteByTypeAndOutboxStatus(ORDER_SAGA_NAME, outboxStatus);
+	}
+
+	@Transactional
+	public void saveOrderOutboxMessage(
+			OrderEventPayload payload,
+			OrderApprovalStatus approvalStatus,
+			OutboxStatus outboxStatus,
+			UUID sagaId
+	) {
+		OrderOutboxMessage message = OrderOutboxMessage.builder()
+				.id(UUID.randomUUID())
+				.sagaId(sagaId)
+				.type(ORDER_SAGA_NAME)
+				.payload(this.buildPayload(payload))
+				.approvalStatus(approvalStatus)
+				.outboxStatus(outboxStatus)
+				.build();
+
+		this.save(message);
+	}
+
+	@Transactional
+	public OrderOutboxMessage save(OrderOutboxMessage orderOutboxMessage) {
+		return this.orderOutboxRepository.save(orderOutboxMessage);
 	}
 
 	@Transactional
