@@ -134,3 +134,41 @@ CREATE TRIGGER refresh_order_restaurant_m_view_trigger
     ON restaurant.restaurant_products
     FOR EACH STATEMENT
 EXECUTE PROCEDURE restaurant.refresh_order_restaurant_m_view();
+
+
+-- ################################################################
+-- OUTBOX TYPES
+-- ################################################################
+
+-- approval status
+DROP TYPE IF EXISTS restaurant.approval_status;
+CREATE TYPE restaurant.approval_status AS ENUM ('APPROVED', 'REJECTED');
+
+-- outbox status
+DROP TYPE IF EXISTS outbox_status;
+CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
+
+
+-- ################################################################
+-- OUTBOX TABLES
+-- ################################################################
+
+-- order outbox
+DROP TABLE IF EXISTS restaurant.order_outbox CASCADE;
+CREATE TABLE restaurant.order_outbox
+(
+    id              UUID                                           NOT NULL,
+    saga_id         UUID                                           NOT NULL,
+    created_at      TIMESTAMP WITH TIME ZONE                       NOT NULL,
+    processed_at    TIMESTAMP WITH TIME ZONE,
+    type            CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
+    payload         JSONB                                          NOT NULL,
+    outbox_status   outbox_status                                  NOT NULL,
+    approval_status approval_status                                NOT NULL,
+    version         INTEGER                                        NOT NULL,
+    CONSTRAINT pk_order_outbox PRIMARY KEY (id)
+);
+CREATE INDEX "idx_order_outbox_status"
+    ON restaurant.order_outbox (type, approval_status);
+CREATE UNIQUE INDEX "idx_order_outbox_saga_id"
+    ON restaurant.order_outbox (type, saga_id, approval_status, outbox_status);
