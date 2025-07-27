@@ -1,12 +1,33 @@
+-- ################################################################
+-- SCHEMA
+-- ################################################################
 DROP SCHEMA IF EXISTS "order" CASCADE;
 
 CREATE SCHEMA "order";
 
+
+-- ################################################################
+-- EXTENSIONS
+-- ################################################################
+
+-- uuid-ossp
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+
+-- ################################################################
+-- TYPES
+-- ################################################################
+
+-- order status
 DROP TYPE IF EXISTS order_status;
 CREATE TYPE order_status AS ENUM ('PENDING','PAID','APPROVED','CANCELLING','CANCELLED');
 
+
+-- ################################################################
+-- TABLES
+-- ################################################################
+
+-- orders
 DROP TABLE IF EXISTS "order".orders;
 CREATE TABLE "order".orders
 (
@@ -20,6 +41,7 @@ CREATE TABLE "order".orders
     CONSTRAINT pk_order PRIMARY KEY (id)
 );
 
+--order items
 DROP TABLE IF EXISTS "order".order_items;
 CREATE TABLE "order".order_items
 (
@@ -39,6 +61,7 @@ ALTER TABLE "order".order_items
         ON DELETE CASCADE
         NOT VALID;
 
+-- order addresses
 DROP TABLE IF EXISTS "order".order_addresses;
 CREATE TABLE "order".order_addresses
 (
@@ -56,3 +79,63 @@ ALTER TABLE "order".order_addresses
         ON UPDATE NO ACTION
         ON DELETE CASCADE
         NOT VALID;
+
+
+-- ################################################################
+-- OUTBOX TYPES
+-- ################################################################
+
+-- saga status
+DROP TYPE IF EXISTS saga_status;
+CREATE TYPE saga_status AS ENUM ('STARTED', 'FAILED', 'SUCCEEDED', 'PROCESSING', 'COMPENSATING', 'COMPENSATED');
+
+-- outbox status
+DROP TYPE IF EXISTS outbox_status;
+CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
+
+
+-- ################################################################
+-- OUTBOX TABLES
+-- ################################################################
+
+-- payment outbox
+DROP TABLE IF EXISTS "order".payment_outbox CASCADE;
+CREATE TABLE "order".payment_outbox
+(
+    id            UUID                                           NOT NULL,
+    saga_id       UUID                                           NOT NULL,
+    created_at    TIMESTAMP WITH TIME ZONE                       NOT NULL,
+    processed_at  TIMESTAMP WITH TIME ZONE,
+    type          CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
+    payload       JSONB                                          NOT NULL,
+    outbox_status outbox_status                                  NOT NULL,
+    saga_status   saga_status                                    NOT NULL,
+    order_status  order_status                                   NOT NULL,
+    version       INTEGER                                        NOT NULL,
+    CONSTRAINT pk_payment_outbox PRIMARY KEY (id)
+);
+CREATE INDEX "idx_payment_outbox_saga_status"
+    ON "order".payment_outbox (type, outbox_status, saga_status);
+--CREATE INDEX "idx_payment_outbox_saga_id"
+--    ON "order".payment_outbox (type, saga_id, saga_status);
+
+-- restaurant approval outbox
+DROP TABLE IF EXISTS "order".restaurant_approval_outbox CASCADE;
+CREATE TABLE "order".restaurant_approval_outbox
+(
+    id            UUID                                           NOT NULL,
+    saga_id       UUID                                           NOT NULL,
+    created_at    TIMESTAMP WITH TIME ZONE                       NOT NULL,
+    processed_at  TIMESTAMP WITH TIME ZONE,
+    type          CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
+    payload       JSONB                                          NOT NULL,
+    outbox_status outbox_status                                  NOT NULL,
+    saga_status   saga_status                                    NOT NULL,
+    order_status  order_status                                   NOT NULL,
+    version       INTEGER                                        NOT NULL,
+    CONSTRAINT pk_restaurant_approval_outbox PRIMARY KEY (id)
+);
+CREATE INDEX "idx_restaurant_approval_outbox_saga_status"
+    ON "order".restaurant_approval_outbox (type, outbox_status, saga_status);
+--CREATE INDEX "idx_restaurant_approval_outbox_saga_id"
+--    ON "order".restaurant_approval_outbox (type, saga_id, saga_status);

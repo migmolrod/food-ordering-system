@@ -5,13 +5,21 @@ DROP SCHEMA IF EXISTS customer CASCADE;
 
 CREATE SCHEMA customer;
 
+
+-- ################################################################
+-- EXTENSIONS
+-- ################################################################
+
+-- uuid-ossp
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- ################################################################
--- CUSTOMERS TABLE
--- ################################################################
-DROP TABLE IF EXISTS customer.customers CASCADE;
 
+-- ################################################################
+-- TABLES
+-- ################################################################
+
+-- customers
+DROP TABLE IF EXISTS customer.customers CASCADE;
 CREATE TABLE customer.customers
 (
     id         uuid                                           NOT NULL,
@@ -21,11 +29,13 @@ CREATE TABLE customer.customers
     CONSTRAINT customers_pk PRIMARY KEY (id)
 );
 
--- ################################################################
--- ORDER CUSTOMER MATERIALIZED VIEW
--- ################################################################
-DROP MATERIALIZED VIEW IF EXISTS customer.order_customer_m_view;
 
+-- ################################################################
+-- MATERIALIZED VIEWS
+-- ################################################################
+
+-- order customer
+DROP MATERIALIZED VIEW IF EXISTS customer.order_customer_m_view;
 CREATE MATERIALIZED VIEW customer.order_customer_m_view TABLESPACE pg_default AS
 SELECT id,
        username,
@@ -33,12 +43,15 @@ SELECT id,
        last_name
 FROM customer.customers
 WITH DATA;
-
 REFRESH MATERIALIZED VIEW customer.order_customer_m_view;
 
--- FUNCTION TO REFRESH MATERIALIZED VIEW
-DROP FUNCTION IF EXISTS customer.refresh_order_customer_m_view();
 
+-- ################################################################
+-- FUNCTIONS
+-- ################################################################
+
+-- refresh order customer mv
+DROP FUNCTION IF EXISTS customer.refresh_order_customer_m_view();
 CREATE OR REPLACE FUNCTION customer.refresh_order_customer_m_view()
     RETURNS trigger
 AS
@@ -49,9 +62,13 @@ AS
     end;
 ' LANGUAGE plpgsql;
 
--- TRIGGER TO REFRESH MATERIALIZED VIEW
-DROP TRIGGER IF EXISTS customer_refresh_order_customer_m_view ON customer.customers;
 
+-- ################################################################
+-- TRIGGERS
+-- ################################################################
+
+-- refresh order customer mv
+DROP TRIGGER IF EXISTS customer_refresh_order_customer_m_view ON customer.customers;
 CREATE TRIGGER customer_refresh_order_customer_m_view
     AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE
     ON customer.customers

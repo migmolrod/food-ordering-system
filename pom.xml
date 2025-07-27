@@ -216,6 +216,15 @@
 			</dependency>
 
 			<!-- ################################################################ -->
+			<!-- OUTBOX -->
+			<!-- ################################################################ -->
+			<dependency>
+				<groupId>ovh.migmolrod.food.ordering.system</groupId>
+				<artifactId>outbox</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- ################################################################ -->
 			<!-- THIRD PARTY -->
 			<!-- ################################################################ -->
 			<dependency>

@@ -1,5 +1,7 @@
 package ovh.migmolrod.food.ordering.system;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,15 +20,23 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Product;
 import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Restaurant;
 import ovh.migmolrod.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import ovh.migmolrod.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
+import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
+import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.input.service.OrderApplicationService;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
+import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.PaymentOutboxRepository;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
+import ovh.migmolrod.food.ordering.system.outbox.OutboxStatus;
+import ovh.migmolrod.food.ordering.system.saga.SagaStatus;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static ovh.migmolrod.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = OrderTestConfiguration.class)
@@ -36,6 +46,7 @@ public class OrderApplicationServiceTest {
 	private final UUID RESTAURANT_ID = UUID.fromString("39442cde-b7b9-4063-9e98-07a6e58f55f4");
 	private final UUID PRODUCT_ID = UUID.fromString("6f31dd5a-93fb-4370-b187-f50e084ea186");
 	private final UUID ORDER_ID = UUID.fromString("c428f69d-1bfc-4e6e-854f-9f9e898d1f61");
+	private final UUID SAGA_ID = UUID.fromString("c428f69d-1bfc-4e6e-854f-9f9e898d1f61");
 	private final BigDecimal PRICE = new BigDecimal("200.00");
 	@Autowired
 	private OrderApplicationService orderApplicationService;
@@ -47,6 +58,11 @@ public class OrderApplicationServiceTest {
 	private CustomerRepository customerRepository;
 	@Autowired
 	private RestaurantRepository restaurantRepository;
+	@Autowired
+	private PaymentOutboxRepository paymentOutboxRepository;
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	private CreateOrderCommand createOrderCommand;
 	private CreateOrderCommand createOrderCommandWrongPrice;
 	private CreateOrderCommand createOrderCommandWrongProductPrice;
@@ -157,6 +173,9 @@ public class OrderApplicationServiceTest {
 
 		Mockito.when(orderRepository.save(Mockito.any(Order.class)))
 				.thenReturn(order);
+
+		Mockito.when(paymentOutboxRepository.save(Mockito.any(OrderPaymentOutboxMessage.class)))
+				.thenReturn(getOrderPaymentOutboxMessage());
 	}
 
 	@Test
@@ -174,8 +193,8 @@ public class OrderApplicationServiceTest {
 				() -> orderApplicationService.createOrder(createOrderCommandWrongPrice)
 		);
 		Assertions.assertEquals(
-				orderDomainException.getMessage(),
-				"Total price (250.00) does not match the sum of all items prices (200.00)"
+				"Total price (250.00) does not match the sum of all items prices (200.00)",
+				orderDomainException.getMessage()
 		);
 	}
 
@@ -215,4 +234,33 @@ public class OrderApplicationServiceTest {
 		);
 	}
 
+	private OrderPaymentOutboxMessage getOrderPaymentOutboxMessage() {
+		OrderPaymentEventPayload orderPaymentEventPayload = OrderPaymentEventPayload.builder()
+				.orderId(ORDER_ID.toString())
+				.customerId(CUSTOMER_ID.toString())
+				.price(PRICE)
+				.createdAt(ZonedDateTime.now())
+				.paymentOrderStatus(PaymentOrderStatus.PENDING.name())
+				.build();
+
+		return OrderPaymentOutboxMessage.builder()
+				.id(UUID.randomUUID())
+				.sagaId(SAGA_ID)
+				.createdAt(ZonedDateTime.now())
+				.type(ORDER_SAGA_NAME)
+				.payload(createPayload(orderPaymentEventPayload))
+				.orderStatus(OrderStatus.PENDING)
+				.sagaStatus(SagaStatus.STARTED)
+				.outboxStatus(OutboxStatus.STARTED)
+				.version(0)
+				.build();
+	}
+
+	private String createPayload(OrderPaymentEventPayload orderPaymentEventPayload) {
+		try {
+			return objectMapper.writeValueAsString(orderPaymentEventPayload);
+		} catch (JsonProcessingException e) {
+			throw new OrderDomainException("Cannot create OrderPaymentEventPayload object");
+		}
+	}
 }
