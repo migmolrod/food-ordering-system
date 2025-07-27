@@ -12,7 +12,7 @@
 	<artifactId>order-application-service</artifactId>
 
 	<name>Order Application Service</name>
-	<description>Implementation of input port for Order microservice application service (use cases)</description>
+	<description>Domain Application Service for Order microservice</description>
 
 	<dependencies>
 		<!-- Internal dependencies -->
