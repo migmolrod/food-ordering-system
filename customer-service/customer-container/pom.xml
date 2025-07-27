@@ -18,7 +18,23 @@
 		<!-- Internal dependencies -->
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>customer-domain-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>customer-application-service</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>customer-application</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>customer-data</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ovh.migmolrod.food.ordering.system</groupId>
+			<artifactId>customer-messaging</artifactId>
 		</dependency>
 		<!-- External dependencies -->
 		<dependency>

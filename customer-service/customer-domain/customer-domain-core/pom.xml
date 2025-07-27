@@ -15,6 +15,7 @@
 	<description>Domain core of Customer microservice</description>
 
 	<dependencies>
+		<!-- Internal dependencies -->
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>common-domain</artifactId>

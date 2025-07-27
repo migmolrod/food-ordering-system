@@ -22,10 +22,6 @@
 		</dependency>
 		<dependency>
 			<groupId>ovh.migmolrod.food.ordering.system</groupId>
-			<artifactId>kafka-consumer</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ovh.migmolrod.food.ordering.system</groupId>
 			<artifactId>kafka-producer</artifactId>
 		</dependency>
 		<dependency>
