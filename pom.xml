@@ -88,31 +88,31 @@
 			<!-- CUSTOMER SERVICE -->
 			<!-- ################################################################ -->
 
-			<!-- ORDER DOMAIN CORE -->
+			<!-- CUSTOMER DOMAIN CORE -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>customer-domain-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- ORDER DOMAIN APPLICATION SERVICE -->
+			<!-- CUSTOMER DOMAIN APPLICATION SERVICE -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>customer-application-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- ORDER APPLICATION -->
+			<!-- CUSTOMER APPLICATION -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>customer-application</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- ORDER DATA -->
+			<!-- CUSTOMER DATA -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>customer-data</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- ORDER MESSAGING -->
+			<!-- CUSTOMER MESSAGING -->
 			<dependency>
 				<groupId>ovh.migmolrod.food.ordering.system</groupId>
 				<artifactId>customer-messaging</artifactId>
