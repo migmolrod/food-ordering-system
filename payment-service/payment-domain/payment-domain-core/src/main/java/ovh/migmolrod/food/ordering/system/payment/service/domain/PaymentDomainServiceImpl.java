@@ -29,9 +29,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 			Payment payment,
 			CreditEntry creditEntry,
 			List<CreditHistory> creditHistories,
-			List<String> failureMessages,
-			DomainEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher,
-			DomainEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher
+			List<String> failureMessages
 	) {
 		payment.validatePayment(failureMessages);
 		payment.initializePayment();
@@ -45,8 +43,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 			payment.updateStatus(PaymentStatus.COMPLETED);
 			return new PaymentCompletedEvent(
 					payment,
-					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
-					paymentCompletedEventDomainEventPublisher
+					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID))
 			);
 		} else {
 			log.info("Payment initiation is failed for order id: {}", payment.getOrderId().getValue());
@@ -54,8 +51,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 			return new PaymentFailedEvent(
 					payment,
 					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
-					failureMessages,
-					paymentFailedEventDomainEventPublisher
+					failureMessages
 			);
 		}
 	}
@@ -65,9 +61,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 			Payment payment,
 			CreditEntry creditEntry,
 			List<CreditHistory> creditHistories,
-			List<String> failureMessages,
-			DomainEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher,
-			DomainEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher
+			List<String> failureMessages
 	) {
 		payment.validatePayment(failureMessages);
 		addCreditEntry(payment, creditEntry);
@@ -78,8 +72,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 			payment.updateStatus(PaymentStatus.CANCELLED);
 			return new PaymentCancelledEvent(
 					payment,
-					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
-					paymentCancelledEventDomainEventPublisher
+					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID))
 			);
 		} else {
 			log.info("Payment cancellation is failed for order id: {}", payment.getOrderId().getValue());
@@ -87,8 +80,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 			return new PaymentFailedEvent(
 					payment,
 					ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)),
-					failureMessages,
-					paymentFailedEventDomainEventPublisher
+					failureMessages
 			);
 		}
 	}
