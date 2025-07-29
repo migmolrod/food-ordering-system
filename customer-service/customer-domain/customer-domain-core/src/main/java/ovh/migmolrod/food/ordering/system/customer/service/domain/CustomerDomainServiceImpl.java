@@ -14,9 +14,6 @@ public class CustomerDomainServiceImpl implements CustomerDomainService {
 
 	@Override
 	public CustomerCreatedEvent validateAndInitializeCustomer(Customer customer) {
-		assert customer.getUsername() != null;
-		assert customer.getFirstName() != null;
-		assert customer.getLastName() != null;
 		log.info("Customer with id '{}' has been validated and initialized", customer.getId().getValue());
 
 		return new CustomerCreatedEvent(customer, ZonedDateTime.now(ZoneId.of(DEFAULT_ZONE_ID)));
