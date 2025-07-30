@@ -13,7 +13,7 @@
 	<artifactId>payment-application-service</artifactId>
 
 	<name>Payment Application Service</name>
-	<description>Implementation of input port for Payment microservice application service (use cases)</description>
+	<description>Domain Application Service for Payment microservice</description>
 
 	<dependencies>
 		<!-- Internal dependencies -->

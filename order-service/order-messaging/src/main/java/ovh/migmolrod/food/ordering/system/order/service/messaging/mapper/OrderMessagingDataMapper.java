@@ -3,7 +3,9 @@ package ovh.migmolrod.food.ordering.system.order.service.messaging.mapper;
 import org.springframework.stereotype.Component;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.OrderApprovalStatus;
 import ovh.migmolrod.food.ordering.system.domain.valueobject.PaymentStatus;
+import ovh.migmolrod.food.ordering.system.kafka.customer.avro.model.CustomerAvroModel;
 import ovh.migmolrod.food.ordering.system.kafka.order.avro.model.*;
+import ovh.migmolrod.food.ordering.system.order.service.domain.dto.message.CustomerCreatedModel;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
 import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
@@ -11,7 +13,6 @@ import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.appr
 import ovh.migmolrod.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -56,6 +57,15 @@ public class OrderMessagingDataMapper {
 				.setPrice(payload.getPrice())
 				.setPaymentOrderStatus(PaymentOrderStatus.valueOf(payload.getPaymentOrderStatus()))
 				.setCreatedAt(payload.getCreatedAt().toInstant())
+				.build();
+	}
+
+	public CustomerCreatedModel customerAvroModelToCustomerCreatedModel(CustomerAvroModel avroModel) {
+		return CustomerCreatedModel.builder()
+				.id(avroModel.getId())
+				.username(avroModel.getUsername())
+				.firstName(avroModel.getFirstName())
+				.lastName(avroModel.getLastName())
 				.build();
 	}
 

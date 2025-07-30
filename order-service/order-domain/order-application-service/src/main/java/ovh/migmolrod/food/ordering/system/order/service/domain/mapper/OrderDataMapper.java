@@ -5,11 +5,9 @@ import ovh.migmolrod.food.ordering.system.domain.valueobject.*;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.create.OrderAddress;
+import ovh.migmolrod.food.ordering.system.order.service.domain.dto.message.CustomerCreatedModel;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse;
-import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Order;
-import ovh.migmolrod.food.ordering.system.order.service.domain.entity.OrderItem;
-import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Product;
-import ovh.migmolrod.food.ordering.system.order.service.domain.entity.Restaurant;
+import ovh.migmolrod.food.ordering.system.order.service.domain.entity.*;
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderPaidEvent;
@@ -98,6 +96,11 @@ public class OrderDataMapper {
 				.price(event.getOrder().getPrice().getAmount())
 				.createdAt(event.getCreatedAt())
 				.build();
+	}
+
+	public Customer customerCreatedMessageToCustomer(CustomerCreatedModel model) {
+		CustomerId id = new CustomerId(UUID.fromString(model.getId()));
+		return new Customer(id, model.getUsername(), model.getFirstName(), model.getLastName());
 	}
 
 	private StreetAddress orderAddressToStreetAddress(OrderAddress orderAddress) {

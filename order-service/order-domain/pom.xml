@@ -14,9 +14,7 @@
 	<packaging>pom</packaging>
 
 	<name>Order Domain</name>
-	<description>
-		Domain layer of Order microservice that holds domain core and application service (input port)
-	</description>
+	<description>Domain layer of Order microservice that holds domain core and application service</description>
 
 	<modules>
 		<module>order-domain-core</module>
