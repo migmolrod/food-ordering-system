@@ -13,7 +13,7 @@
 	<artifactId>restaurant-application-service</artifactId>
 
 	<name>Restaurant Application Service</name>
-	<description>Implementation of input port for Restaurant microservice application service (use cases)</description>
+	<description>Domain Application Service for Restaurant microservice</description>
 
 	<dependencies>
 		<!-- Internal dependencies -->

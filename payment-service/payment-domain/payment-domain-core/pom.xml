@@ -13,7 +13,7 @@
 	<artifactId>payment-domain-core</artifactId>
 
 	<name>Payment Domain Core</name>
-	<description>Domain core of Payment microservice (ports)</description>
+	<description>Domain core of Payment microservice</description>
 
 	<dependencies>
 		<dependency>

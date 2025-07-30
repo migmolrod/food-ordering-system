@@ -13,7 +13,7 @@
 	<artifactId>restaurant-domain-core</artifactId>
 
 	<name>Restaurant Domain Core</name>
-	<description>Domain core of Restaurant microservice (ports)</description>
+	<description>Domain core of Restaurant microservice</description>
 
 	<dependencies>
 		<dependency>

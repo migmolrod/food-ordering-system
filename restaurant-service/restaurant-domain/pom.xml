@@ -14,9 +14,7 @@
 	<packaging>pom</packaging>
 
 	<name>Restaurant Domain</name>
-	<description>
-		Domain layer of Restaurant microservice that holds domain core and application service (input port)
-	</description>
+	<description>Domain layer of Restaurant microservice that holds domain core and application service</description>
 
 	<modules>
 		<module>restaurant-domain-core</module>

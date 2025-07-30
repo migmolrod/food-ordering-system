@@ -12,7 +12,7 @@
 	<artifactId>order-domain-core</artifactId>
 
 	<name>Order Domain Core</name>
-	<description>Domain core of Order microservice (ports)</description>
+	<description>Domain core of Order microservice</description>
 
 	<dependencies>
 		<dependency>

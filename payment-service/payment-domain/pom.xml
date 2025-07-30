@@ -14,9 +14,7 @@
 	<packaging>pom</packaging>
 
 	<name>Payment Domain</name>
-	<description>
-		Domain layer of Payment microservice that holds domain core and application service (input port)
-	</description>
+	<description>Domain layer of Payment microservice that holds domain core and application service</description>
 
 	<modules>
 		<module>payment-domain-core</module>
