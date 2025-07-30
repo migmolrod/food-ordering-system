@@ -80,6 +80,16 @@ ALTER TABLE "order".order_addresses
         ON DELETE CASCADE
         NOT VALID;
 
+-- customers
+DROP TABLE IF EXISTS "order".customers CASCADE;
+CREATE TABLE "order".customers
+(
+    id         UUID                                           NOT NULL,
+    username   CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
+    first_name CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
+    last_name  CHARACTER VARYING COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT pk_customers PRIMARY KEY (id)
+);
 
 -- ################################################################
 -- OUTBOX TYPES
