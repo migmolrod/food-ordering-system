@@ -13,31 +13,31 @@ import java.util.UUID;
 @Component
 public class PaymentRepositoryImpl implements PaymentRepository {
 
-	private final PaymentJpaRepository paymentJpaRepository;
-	private final PaymentDataAccessMapper paymentDataAccessMapper;
+	private final PaymentJpaRepository jpaRepository;
+	private final PaymentDataAccessMapper mapper;
 
 	public PaymentRepositoryImpl(
-			PaymentJpaRepository paymentJpaRepository,
-			PaymentDataAccessMapper paymentDataAccessMapper
+			PaymentJpaRepository jpaRepository,
+			PaymentDataAccessMapper mapper
 	) {
-		this.paymentJpaRepository = paymentJpaRepository;
-		this.paymentDataAccessMapper = paymentDataAccessMapper;
+		this.jpaRepository = jpaRepository;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public Payment save(Payment payment) {
-		PaymentEntity savedPaymentEntity = paymentJpaRepository.save(
-				paymentDataAccessMapper.paymentToPaymentEntity(payment)
+		PaymentEntity savedPaymentEntity = jpaRepository.save(
+				mapper.paymentToPaymentEntity(payment)
 		);
 
-		return paymentDataAccessMapper.paymentEntityToPayment(savedPaymentEntity);
+		return mapper.paymentEntityToPayment(savedPaymentEntity);
 	}
 
 	@Override
 	public Optional<Payment> findByOrderId(UUID orderId) {
-		return paymentJpaRepository
+		return jpaRepository
 				.findByOrderId(orderId)
-				.map(paymentDataAccessMapper::paymentEntityToPayment);
+				.map(mapper::paymentEntityToPayment);
 	}
 
 }

@@ -2,7 +2,6 @@ package ovh.migmolrod.food.ordering.system.payment.service.messaging.listener.ka
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -23,15 +22,15 @@ import java.util.List;
 @Component
 public class PaymentRequestKafkaListener implements KafkaConsumer<PaymentRequestAvroModel> {
 
-	private final PaymentRequestMessageListener paymentRequestMessageListener;
-	private final PaymentMessagingDataMapper paymentMessagingDataMapper;
+	private final PaymentRequestMessageListener listener;
+	private final PaymentMessagingDataMapper mapper;
 
 	public PaymentRequestKafkaListener(
-			PaymentRequestMessageListener paymentRequestMessageListener,
-			PaymentMessagingDataMapper paymentMessagingDataMapper
+			PaymentRequestMessageListener listener,
+			PaymentMessagingDataMapper mapper
 	) {
-		this.paymentRequestMessageListener = paymentRequestMessageListener;
-		this.paymentMessagingDataMapper = paymentMessagingDataMapper;
+		this.listener = listener;
+		this.mapper = mapper;
 	}
 
 	@Override
@@ -58,13 +57,13 @@ public class PaymentRequestKafkaListener implements KafkaConsumer<PaymentRequest
 			try {
 				if (PaymentOrderStatus.PENDING.equals(paymentRequestAvroModel.getPaymentOrderStatus())) {
 					log.info("Processing payment for order id: {}", paymentRequestAvroModel.getOrderId());
-					paymentRequestMessageListener.completePayment(
-							paymentMessagingDataMapper.paymentRequestAvroModelToPaymentRequest(paymentRequestAvroModel)
+					listener.completePayment(
+							mapper.paymentRequestAvroModelToPaymentRequest(paymentRequestAvroModel)
 					);
 				} else if (PaymentOrderStatus.CANCELLED.equals(paymentRequestAvroModel.getPaymentOrderStatus())) {
 					log.info("Cancelling payment for order id: {}", paymentRequestAvroModel.getOrderId());
-					paymentRequestMessageListener.cancelPayment(
-							paymentMessagingDataMapper.paymentRequestAvroModelToPaymentRequest(paymentRequestAvroModel)
+					listener.cancelPayment(
+							mapper.paymentRequestAvroModelToPaymentRequest(paymentRequestAvroModel)
 					);
 				}
 			} catch (DataAccessException e) {

@@ -21,15 +21,15 @@ import java.util.List;
 @Component
 public class RestaurantApprovalRequestKafkaListener implements KafkaConsumer<RestaurantApprovalRequestAvroModel> {
 
-	private final RestaurantApprovalRequestMessageListener restaurantApprovalRequestMessageListener;
-	private final RestaurantMessagingDataMapper dataMapper;
+	private final RestaurantApprovalRequestMessageListener listener;
+	private final RestaurantMessagingDataMapper mapper;
 
 	public RestaurantApprovalRequestKafkaListener(
-			RestaurantApprovalRequestMessageListener restaurantApprovalRequestMessageListener,
-			RestaurantMessagingDataMapper restaurantMessagingDataMapper
+			RestaurantApprovalRequestMessageListener listener,
+			RestaurantMessagingDataMapper mapper
 	) {
-		this.restaurantApprovalRequestMessageListener = restaurantApprovalRequestMessageListener;
-		this.dataMapper = restaurantMessagingDataMapper;
+		this.listener = listener;
+		this.mapper = mapper;
 	}
 
 	@Override
@@ -51,8 +51,8 @@ public class RestaurantApprovalRequestKafkaListener implements KafkaConsumer<Res
 			try {
 				log.info("Processing order approval for order id {} at {}",
 						restaurantApprovalRequestAvroModel.getOrderId(), System.nanoTime());
-				restaurantApprovalRequestMessageListener.approveOrder(
-						dataMapper.restaurantApprovalRequestAvroModelToRestaurantApprovalRequest(restaurantApprovalRequestAvroModel)
+				listener.approveOrder(
+						mapper.restaurantApprovalRequestAvroModelToRestaurantApprovalRequest(restaurantApprovalRequestAvroModel)
 				);
 			} catch (DataAccessException e) {
 				SQLException sqlException = (SQLException) e.getRootCause();
