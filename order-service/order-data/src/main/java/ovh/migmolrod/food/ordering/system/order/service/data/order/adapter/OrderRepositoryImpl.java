@@ -14,32 +14,32 @@ import java.util.Optional;
 @Component
 public class OrderRepositoryImpl implements OrderRepository {
 
-	private final OrderJpaRepository orderJpaRepository;
-	private final OrderDataAccessMapper orderDataAccessMapper;
+	private final OrderJpaRepository jpaRepository;
+	private final OrderDataAccessMapper mapper;
 
 	public OrderRepositoryImpl(
-			OrderJpaRepository orderJpaRepository,
-			OrderDataAccessMapper orderDataAccessMapper
+			OrderJpaRepository jpaRepository,
+			OrderDataAccessMapper mapper
 	) {
-		this.orderJpaRepository = orderJpaRepository;
-		this.orderDataAccessMapper = orderDataAccessMapper;
+		this.jpaRepository = jpaRepository;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public Order save(Order order) {
-		OrderEntity savedOrderEntity = orderJpaRepository.save(orderDataAccessMapper.orderToOrderEntity(order));
+		OrderEntity savedOrderEntity = jpaRepository.save(mapper.orderToOrderEntity(order));
 
-		return orderDataAccessMapper.orderEntityToOrder(savedOrderEntity);
+		return mapper.orderEntityToOrder(savedOrderEntity);
 	}
 
 	@Override
 	public Optional<Order> findByTrackingId(TrackingId trackingId) {
-		return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
+		return jpaRepository.findByTrackingId(trackingId.getValue()).map(mapper::orderEntityToOrder);
 	}
 
 	@Override
 	public Optional<Order> findById(OrderId orderId) {
-		return orderJpaRepository.findById(orderId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
+		return jpaRepository.findById(orderId.getValue()).map(mapper::orderEntityToOrder);
 	}
 
 }

@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ovh.migmolrod.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
-import ovh.migmolrod.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import ovh.migmolrod.food.ordering.system.order.service.domain.ports.input.message.listener.payment.PaymentResponseMessageListener;
 import ovh.migmolrod.food.ordering.system.order.service.domain.saga.OrderPaymentSaga;
 

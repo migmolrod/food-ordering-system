@@ -20,15 +20,15 @@ import java.util.List;
 @Component
 public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<RestaurantApprovalResponseAvroModel> {
 
-	private final RestaurantApprovalResponseMessageListener restaurantApprovalResponseMessageListener;
-	private final OrderMessagingDataMapper orderMessagingDataMapper;
+	private final RestaurantApprovalResponseMessageListener listener;
+	private final OrderMessagingDataMapper mapper;
 
 	public RestaurantApprovalResponseKafkaListener(
-			RestaurantApprovalResponseMessageListener restaurantApprovalResponseMessageListener,
-			OrderMessagingDataMapper orderMessagingDataMapper
+			RestaurantApprovalResponseMessageListener listener,
+			OrderMessagingDataMapper mapper
 	) {
-		this.restaurantApprovalResponseMessageListener = restaurantApprovalResponseMessageListener;
-		this.orderMessagingDataMapper = orderMessagingDataMapper;
+		this.listener = listener;
+		this.mapper = mapper;
 	}
 
 	@Override
@@ -56,16 +56,16 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
 				if (OrderApprovalStatus.APPROVED.equals(restaurantApprovalResponseAvroModel.getOrderApprovalStatus())) {
 					log.info("Processing approved order for order id: {}",
 							restaurantApprovalResponseAvroModel.getOrderId());
-					restaurantApprovalResponseMessageListener.orderApproved(
-							orderMessagingDataMapper.restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(
+					this.listener.orderApproved(
+							this.mapper.restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(
 									restaurantApprovalResponseAvroModel
 							)
 					);
 				} else if (OrderApprovalStatus.REJECTED.equals(restaurantApprovalResponseAvroModel.getOrderApprovalStatus())) {
 					log.info("Processing rejected order for order id: {}",
 							restaurantApprovalResponseAvroModel.getOrderId());
-					restaurantApprovalResponseMessageListener.orderRejected(
-							orderMessagingDataMapper.restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(
+					this.listener.orderRejected(
+							this.mapper.restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(
 									restaurantApprovalResponseAvroModel
 							)
 					);

@@ -20,20 +20,20 @@ import java.util.function.BiConsumer;
 @Component
 public class ApprovalRequestMessagePublisherImpl implements ApprovalRequestMessagePublisher {
 
-	private final OrderMessagingDataMapper orderMessagingDataMapper;
-	private final OrderServiceConfigData orderServiceConfigData;
-	private final KafkaMessageHelper kafkaMessageHelper;
+	private final OrderMessagingDataMapper mapper;
+	private final OrderServiceConfigData config;
+	private final KafkaMessageHelper kafkaHelper;
 	private final KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer;
 
 	public ApprovalRequestMessagePublisherImpl(
-			OrderMessagingDataMapper orderMessagingDataMapper,
-			OrderServiceConfigData orderServiceConfigData,
-			KafkaMessageHelper kafkaMessageHelper,
+			OrderMessagingDataMapper mapper,
+			OrderServiceConfigData config,
+			KafkaMessageHelper kafkaHelper,
 			KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer
 	) {
-		this.orderMessagingDataMapper = orderMessagingDataMapper;
-		this.orderServiceConfigData = orderServiceConfigData;
-		this.kafkaMessageHelper = kafkaMessageHelper;
+		this.mapper = mapper;
+		this.config = config;
+		this.kafkaHelper = kafkaHelper;
 		this.kafkaProducer = kafkaProducer;
 	}
 
@@ -42,7 +42,7 @@ public class ApprovalRequestMessagePublisherImpl implements ApprovalRequestMessa
 			OrderApprovalOutboxMessage outboxMessage,
 			BiConsumer<OrderApprovalOutboxMessage, OutboxStatus> outboxCallback
 	) {
-		OrderApprovalEventPayload payload = this.kafkaMessageHelper.createOrderEventPayload(
+		OrderApprovalEventPayload payload = this.kafkaHelper.createOrderEventPayload(
 				outboxMessage.getPayload(),
 				OrderApprovalEventPayload.class
 		);
@@ -52,13 +52,12 @@ public class ApprovalRequestMessagePublisherImpl implements ApprovalRequestMessa
 		log.info("Received OrderApprovalOutboxMessage for order id '{}' and saga id '{}'", orderId, sagaId);
 
 		try {
-			RestaurantApprovalRequestAvroModel avroModel =
-					orderMessagingDataMapper.approvalEventPayloadToAvroModel(sagaId, payload);
+			RestaurantApprovalRequestAvroModel avroModel = this.mapper.approvalEventPayloadToAvroModel(sagaId, payload);
 
-			String topicName = this.orderServiceConfigData.getRestaurantApprovalRequestTopicName();
+			String topicName = this.config.getRestaurantApprovalRequestTopicName();
 
 			ListenableFutureCallback<SendResult<String, RestaurantApprovalRequestAvroModel>> kafkaCallback =
-					this.kafkaMessageHelper.getKafkaCallback(
+					this.kafkaHelper.getKafkaCallback(
 							topicName,
 							avroModel,
 							outboxMessage,

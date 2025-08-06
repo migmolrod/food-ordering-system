@@ -20,20 +20,20 @@ import java.util.function.BiConsumer;
 @Component
 public class PaymentRequestMessagePublisherImpl implements PaymentRequestMessagePublisher {
 
-	private final OrderMessagingDataMapper orderMessagingDataMapper;
-	private final OrderServiceConfigData orderServiceConfigData;
-	private final KafkaMessageHelper kafkaMessageHelper;
+	private final OrderMessagingDataMapper mapper;
+	private final OrderServiceConfigData config;
+	private final KafkaMessageHelper kafkaHelper;
 	private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
 
 	public PaymentRequestMessagePublisherImpl(
-			OrderMessagingDataMapper orderMessagingDataMapper,
-			OrderServiceConfigData orderServiceConfigData,
-			KafkaMessageHelper kafkaMessageHelper,
+			OrderMessagingDataMapper mapper,
+			OrderServiceConfigData config,
+			KafkaMessageHelper kafkaHelper,
 			KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer
 	) {
-		this.orderMessagingDataMapper = orderMessagingDataMapper;
-		this.orderServiceConfigData = orderServiceConfigData;
-		this.kafkaMessageHelper = kafkaMessageHelper;
+		this.mapper = mapper;
+		this.config = config;
+		this.kafkaHelper = kafkaHelper;
 		this.kafkaProducer = kafkaProducer;
 	}
 
@@ -42,7 +42,7 @@ public class PaymentRequestMessagePublisherImpl implements PaymentRequestMessage
 			OrderPaymentOutboxMessage outboxMessage,
 			BiConsumer<OrderPaymentOutboxMessage, OutboxStatus> outboxCallback
 	) {
-		OrderPaymentEventPayload payload = this.kafkaMessageHelper.createOrderEventPayload(
+		OrderPaymentEventPayload payload = this.kafkaHelper.createOrderEventPayload(
 				outboxMessage.getPayload(),
 				OrderPaymentEventPayload.class
 		);
@@ -51,12 +51,12 @@ public class PaymentRequestMessagePublisherImpl implements PaymentRequestMessage
 		log.info("Received OrderPaymentOutboxMessage for order id '{}' and saga id '{}'", orderId, sagaId);
 
 		try {
-			PaymentRequestAvroModel avroModel = orderMessagingDataMapper.paymentEventPayloadToAvroModel(sagaId, payload);
+			PaymentRequestAvroModel avroModel = this.mapper.paymentEventPayloadToAvroModel(sagaId, payload);
 
-			String topicName = this.orderServiceConfigData.getPaymentRequestTopicName();
+			String topicName = this.config.getPaymentRequestTopicName();
 
 			ListenableFutureCallback<SendResult<String, PaymentRequestAvroModel>> kafkaCallback =
-					this.kafkaMessageHelper.getKafkaCallback(
+					this.kafkaHelper.getKafkaCallback(
 							topicName,
 							avroModel,
 							outboxMessage,

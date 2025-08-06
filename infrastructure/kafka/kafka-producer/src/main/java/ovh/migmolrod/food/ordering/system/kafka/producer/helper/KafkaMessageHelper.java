@@ -63,7 +63,7 @@ public class KafkaMessageHelper {
 		};
 	}
 
-	public <T> T createOrderEventPayload(String payload, Class<T> outputType){
+	public <T> T createOrderEventPayload(String payload, Class<T> outputType) {
 		try {
 			return this.objectMapper.readValue(payload, outputType);
 		} catch (JsonProcessingException e) {
