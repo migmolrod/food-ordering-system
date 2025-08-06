@@ -20,26 +20,26 @@ import java.util.function.BiConsumer;
 @Component
 public class PaymentResponseKafkaPublisher implements PaymentResponseMessagePublisher {
 
-	private final PaymentMessagingDataMapper paymentMessagingDataMapper;
-	private final PaymentServiceConfigData paymentServiceConfigData;
-	private final KafkaMessageHelper kafkaMessageHelper;
+	private final PaymentMessagingDataMapper mapper;
+	private final PaymentServiceConfigData config;
+	private final KafkaMessageHelper kafkaHelper;
 	private final KafkaProducer<String, PaymentResponseAvroModel> kafkaProducer;
 
 	public PaymentResponseKafkaPublisher(
-			PaymentMessagingDataMapper paymentMessagingDataMapper,
-			PaymentServiceConfigData paymentServiceConfigData,
-			KafkaMessageHelper kafkaMessageHelper,
+			PaymentMessagingDataMapper mapper,
+			PaymentServiceConfigData config,
+			KafkaMessageHelper kafkaHelper,
 			KafkaProducer<String, PaymentResponseAvroModel> kafkaProducer
 	) {
-		this.paymentMessagingDataMapper = paymentMessagingDataMapper;
-		this.paymentServiceConfigData = paymentServiceConfigData;
-		this.kafkaMessageHelper = kafkaMessageHelper;
+		this.mapper = mapper;
+		this.config = config;
+		this.kafkaHelper = kafkaHelper;
 		this.kafkaProducer = kafkaProducer;
 	}
 
 	@Override
 	public void publish(OrderOutboxMessage outboxMessage, BiConsumer<OrderOutboxMessage, OutboxStatus> outboxCallback) {
-		OrderEventPayload payload = this.kafkaMessageHelper.createOrderEventPayload(
+		OrderEventPayload payload = this.kafkaHelper.createOrderEventPayload(
 				outboxMessage.getPayload(),
 				OrderEventPayload.class
 		);
@@ -49,12 +49,12 @@ public class PaymentResponseKafkaPublisher implements PaymentResponseMessagePubl
 
 		try {
 			PaymentResponseAvroModel avroModel =
-					this.paymentMessagingDataMapper.orderEventPayloadToPaymentResponseAvroModel(sagaId, payload);
+					this.mapper.orderEventPayloadToPaymentResponseAvroModel(sagaId, payload);
 
-			String topicName = this.paymentServiceConfigData.getPaymentResponseTopicName();
+			String topicName = this.config.getPaymentResponseTopicName();
 
 			ListenableFutureCallback<SendResult<String, PaymentResponseAvroModel>> kafkaCallback =
-					this.kafkaMessageHelper.getKafkaCallback(
+					this.kafkaHelper.getKafkaCallback(
 							topicName,
 							avroModel,
 							outboxMessage,

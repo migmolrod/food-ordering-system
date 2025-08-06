@@ -9,22 +9,22 @@ import ovh.migmolrod.food.ordering.system.restaurant.service.domain.ports.output
 @Component
 public class OrderApprovalRepositoryImpl implements OrderApprovalRepository {
 
-	private final OrderApprovalJapRepository orderApprovalJapRepository;
-	private final RestaurantDataAccessMapper restaurantDataAccessMapper;
+	private final OrderApprovalJapRepository jpaRepository;
+	private final RestaurantDataAccessMapper mapper;
 
 	public OrderApprovalRepositoryImpl(
-			OrderApprovalJapRepository orderApprovalJapRepository,
-			RestaurantDataAccessMapper restaurantDataAccessMapper
+			OrderApprovalJapRepository jpaRepository,
+			RestaurantDataAccessMapper mapper
 	) {
-		this.orderApprovalJapRepository = orderApprovalJapRepository;
-		this.restaurantDataAccessMapper = restaurantDataAccessMapper;
+		this.jpaRepository = jpaRepository;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public OrderApproval save(OrderApproval orderApproval) {
-		return restaurantDataAccessMapper.orderApprovalEntityToOrderApproval(
-				orderApprovalJapRepository.save(
-						restaurantDataAccessMapper.orderApprovalToOrderApprovalEntity(orderApproval)
+		return mapper.orderApprovalEntityToOrderApproval(
+				jpaRepository.save(
+						mapper.orderApprovalToOrderApprovalEntity(orderApproval)
 				)
 		);
 	}

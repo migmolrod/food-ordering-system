@@ -15,34 +15,34 @@ import java.util.stream.Collectors;
 @Component
 public class CreditHistoryRepositoryImpl implements CreditHistoryRepository {
 
-	private final CreditHistoryJpaRepository creditHistoryJpaRepository;
-	private final CreditHistoryDataAccessMapper creditHistoryDataAccessMapper;
+	private final CreditHistoryJpaRepository jpaRepository;
+	private final CreditHistoryDataAccessMapper mapper;
 
 	public CreditHistoryRepositoryImpl(
-			CreditHistoryJpaRepository creditHistoryJpaRepository,
-			CreditHistoryDataAccessMapper creditHistoryDataAccessMapper
+			CreditHistoryJpaRepository jpaRepository,
+			CreditHistoryDataAccessMapper mapper
 	) {
-		this.creditHistoryJpaRepository = creditHistoryJpaRepository;
-		this.creditHistoryDataAccessMapper = creditHistoryDataAccessMapper;
+		this.jpaRepository = jpaRepository;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public CreditHistory save(CreditHistory creditHistory) {
-		CreditHistoryEntity savedCreditHistoryEntity = creditHistoryJpaRepository.save(
-				creditHistoryDataAccessMapper.creditHistoryToCreditHistoryEntity(creditHistory)
+		CreditHistoryEntity savedCreditHistoryEntity = jpaRepository.save(
+				mapper.creditHistoryToCreditHistoryEntity(creditHistory)
 		);
 
-		return creditHistoryDataAccessMapper.creditHistoryEntityToCreditHistory(savedCreditHistoryEntity);
+		return mapper.creditHistoryEntityToCreditHistory(savedCreditHistoryEntity);
 	}
 
 	@Override
 	public Optional<List<CreditHistory>> findByCustomerId(CustomerId customerId) {
 		Optional<List<CreditHistoryEntity>> creditHistoryEntities =
-				creditHistoryJpaRepository.findByCustomerId(customerId.getValue());
+				jpaRepository.findByCustomerId(customerId.getValue());
 
 		return creditHistoryEntities.map(
 				creditHistoryList -> creditHistoryList.stream()
-						.map(creditHistoryDataAccessMapper::creditHistoryEntityToCreditHistory)
+						.map(mapper::creditHistoryEntityToCreditHistory)
 						.collect(Collectors.toList())
 		);
 	}

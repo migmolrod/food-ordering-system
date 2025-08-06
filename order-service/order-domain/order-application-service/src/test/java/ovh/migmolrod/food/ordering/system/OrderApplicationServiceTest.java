@@ -262,4 +262,5 @@ public class OrderApplicationServiceTest {
 			throw new OrderDomainException("Cannot create OrderPaymentEventPayload object");
 		}
 	}
+
 }

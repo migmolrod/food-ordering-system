@@ -168,8 +168,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 	private Order rollbackPaymentForOrder(PaymentResponse paymentResponse) {
 		log.info("Cancelling payment for order with id {}", paymentResponse.getOrderId());
 		Order order = orderSagaHelper.findOrder(paymentResponse.getOrderId());
-		orderDomainService.cancelOrderPayment(order,
-				paymentResponse.getFailureMessages());
+		orderDomainService.cancelOrderPayment(order, paymentResponse.getFailureMessages());
 		orderSagaHelper.saveOrder(order);
 
 		return order;

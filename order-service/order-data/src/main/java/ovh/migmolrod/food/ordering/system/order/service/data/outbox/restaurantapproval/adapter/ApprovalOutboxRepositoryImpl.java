@@ -19,22 +19,22 @@ import java.util.stream.Collectors;
 @Component
 public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
 
-	private final ApprovalOutboxJpaRepository approvalOutboxJpaRepository;
-	private final ApprovalOutboxDataMapper dataMapper;
+	private final ApprovalOutboxJpaRepository jpaRepository;
+	private final ApprovalOutboxDataMapper mapper;
 
 	public ApprovalOutboxRepositoryImpl(
-			ApprovalOutboxJpaRepository approvalOutboxJpaRepository,
-			ApprovalOutboxDataMapper dataMapper
+			ApprovalOutboxJpaRepository jpaRepository,
+			ApprovalOutboxDataMapper mapper
 	) {
-		this.approvalOutboxJpaRepository = approvalOutboxJpaRepository;
-		this.dataMapper = dataMapper;
+		this.jpaRepository = jpaRepository;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public OrderApprovalOutboxMessage save(OrderApprovalOutboxMessage message) {
-		ApprovalOutboxEntity savedEntity = this.approvalOutboxJpaRepository.save(dataMapper.messageToEntity(message));
+		ApprovalOutboxEntity savedEntity = this.jpaRepository.save(mapper.messageToEntity(message));
 
-		return dataMapper.entityToMessage(savedEntity);
+		return mapper.entityToMessage(savedEntity);
 	}
 
 	@Override
@@ -43,13 +43,13 @@ public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
 			OutboxStatus outboxStatus,
 			SagaStatus... sagaStatus
 	) {
-		return Optional.of(this.approvalOutboxJpaRepository.findByTypeAndOutboxStatusAndSagaStatusIn(
+		return Optional.of(this.jpaRepository.findByTypeAndOutboxStatusAndSagaStatusIn(
 						type,
 						outboxStatus,
 						Arrays.asList(sagaStatus)
 				).orElseThrow(() -> new ApprovalOutboxNotFoundException("Approval outbox object not found for saga type " + type))
 				.stream()
-				.map(dataMapper::entityToMessage)
+				.map(mapper::entityToMessage)
 				.collect(Collectors.toList()));
 	}
 
@@ -59,8 +59,8 @@ public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
 			UUID sagaId,
 			SagaStatus... sagaStatus
 	) {
-		return approvalOutboxJpaRepository.findByTypeAndSagaIdAndSagaStatusIn(type, sagaId, Arrays.asList(sagaStatus))
-				.map(dataMapper::entityToMessage);
+		return jpaRepository.findByTypeAndSagaIdAndSagaStatusIn(type, sagaId, Arrays.asList(sagaStatus))
+				.map(mapper::entityToMessage);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
 			OutboxStatus outboxStatus,
 			SagaStatus... sagaStatus
 	) {
-		this.approvalOutboxJpaRepository.deleteByTypeAndOutboxStatusAndSagaStatusIn(
+		this.jpaRepository.deleteByTypeAndOutboxStatusAndSagaStatusIn(
 				type,
 				outboxStatus,
 				Arrays.asList(sagaStatus)

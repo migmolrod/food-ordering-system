@@ -17,6 +17,7 @@ import java.util.UUID;
 @Table(name = "restaurant_approval_outbox")
 @Entity
 public class ApprovalOutboxEntity {
+
 	@Id
 	private UUID id;
 	private UUID sagaId;
