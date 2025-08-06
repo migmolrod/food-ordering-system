@@ -13,32 +13,32 @@ import java.util.Optional;
 @Component
 public class CreditEntryRepositoryImpl implements CreditEntryRepository {
 
-	private final CreditEntryJpaRepository creditEntryJpaRepository;
-	private final CreditEntryDataAccessMapper creditEntryDataAccessMapper;
+	private final CreditEntryJpaRepository jpaRepository;
+	private final CreditEntryDataAccessMapper mapper;
 
 
 	public CreditEntryRepositoryImpl(
-			CreditEntryJpaRepository creditEntryJpaRepository,
-			CreditEntryDataAccessMapper creditEntryDataAccessMapper
+			CreditEntryJpaRepository jpaRepository,
+			CreditEntryDataAccessMapper mapper
 	) {
-		this.creditEntryJpaRepository = creditEntryJpaRepository;
-		this.creditEntryDataAccessMapper = creditEntryDataAccessMapper;
+		this.jpaRepository = jpaRepository;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public CreditEntry save(CreditEntry creditEntry) {
-		CreditEntryEntity savedCreditEntryEntity = creditEntryJpaRepository.save(
-				creditEntryDataAccessMapper.creditEntryToCreditEntryEntity(creditEntry)
+		CreditEntryEntity savedCreditEntryEntity = jpaRepository.save(
+				mapper.creditEntryToCreditEntryEntity(creditEntry)
 		);
 
-		return creditEntryDataAccessMapper.creditEntryEntityToCreditEntry(savedCreditEntryEntity);
+		return mapper.creditEntryEntityToCreditEntry(savedCreditEntryEntity);
 	}
 
 	@Override
 	public Optional<CreditEntry> findByCustomerId(CustomerId customerId) {
-		return creditEntryJpaRepository
+		return jpaRepository
 				.findByCustomerId(customerId.getValue())
-				.map(creditEntryDataAccessMapper::creditEntryEntityToCreditEntry);
+				.map(mapper::creditEntryEntityToCreditEntry);
 	}
 
 }

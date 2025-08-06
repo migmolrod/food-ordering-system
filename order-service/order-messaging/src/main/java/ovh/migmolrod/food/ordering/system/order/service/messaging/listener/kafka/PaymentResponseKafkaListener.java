@@ -20,15 +20,15 @@ import java.util.List;
 @Component
 public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentResponseAvroModel> {
 
-	private final PaymentResponseMessageListener paymentResponseKafkaMessageListener;
-	private final OrderMessagingDataMapper orderMessagingDataMapper;
+	private final PaymentResponseMessageListener listener;
+	private final OrderMessagingDataMapper mapper;
 
 	public PaymentResponseKafkaListener(
-			PaymentResponseMessageListener paymentResponseKafkaMessageListener,
-			OrderMessagingDataMapper orderMessagingDataMapper
+			PaymentResponseMessageListener listener,
+			OrderMessagingDataMapper mapper
 	) {
-		this.paymentResponseKafkaMessageListener = paymentResponseKafkaMessageListener;
-		this.orderMessagingDataMapper = orderMessagingDataMapper;
+		this.listener = listener;
+		this.mapper = mapper;
 	}
 
 	@Override
@@ -55,13 +55,12 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
 			try {
 				if (PaymentStatus.COMPLETED.equals(paymentResponseAvroModel.getPaymentStatus())) {
 					log.info("Processing successful payment for order id: {}", paymentResponseAvroModel.getOrderId());
-					paymentResponseKafkaMessageListener.paymentCompleted(
-							orderMessagingDataMapper.paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel)
-					);
+					this.listener.paymentCompleted(
+							this.mapper.paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
 				} else if (List.of(PaymentStatus.CANCELLED, PaymentStatus.FAILED).contains(paymentResponseAvroModel.getPaymentStatus())) {
 					log.info("Processing unsuccessful payment for order id: {}", paymentResponseAvroModel.getOrderId());
-					paymentResponseKafkaMessageListener.paymentCancelled(
-							orderMessagingDataMapper.paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel)
+					this.listener.paymentCancelled(
+							this.mapper.paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel)
 					);
 				}
 			} catch (OptimisticLockingFailureException e) {

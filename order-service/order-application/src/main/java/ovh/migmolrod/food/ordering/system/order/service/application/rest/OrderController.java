@@ -16,10 +16,10 @@ import java.util.UUID;
 @RequestMapping(value = "/orders", produces = "application/vnd.api.v1+json")
 public class OrderController {
 
-	private final OrderApplicationService orderApplicationService;
+	private final OrderApplicationService service;
 
-	public OrderController(OrderApplicationService orderApplicationService) {
-		this.orderApplicationService = orderApplicationService;
+	public OrderController(OrderApplicationService service) {
+		this.service = service;
 	}
 
 	@PostMapping
@@ -30,7 +30,7 @@ public class OrderController {
 				createOrderCommand.getCustomerId(),
 				createOrderCommand.getRestaurantId());
 
-		CreateOrderResponse createOrderResponse = orderApplicationService.createOrder(createOrderCommand);
+		CreateOrderResponse createOrderResponse = service.createOrder(createOrderCommand);
 		log.info("Order created with tracking id {}", createOrderResponse.getOrderTrackingId());
 
 		return ResponseEntity.ok(createOrderResponse);
@@ -42,7 +42,7 @@ public class OrderController {
 	) {
 		TrackOrderQuery trackOrderQuery = TrackOrderQuery.builder().orderTrackingId(trackingId).build();
 
-		TrackOrderResponse trackOrderResponse = orderApplicationService.trackOrder(trackOrderQuery);
+		TrackOrderResponse trackOrderResponse = service.trackOrder(trackOrderQuery);
 		log.info("Returning order status with tracking id {}", trackOrderResponse.getOrderTrackingId());
 
 		return ResponseEntity.ok(trackOrderResponse);

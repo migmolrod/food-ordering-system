@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:${POSTGRES_VERSION:-17}
-    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -16,7 +15,6 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:${PGADMIN_VERSION:-latest}
-    restart: always
     ports:
       - "15432:15432"
     environment:

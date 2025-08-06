@@ -19,22 +19,22 @@ import java.util.stream.Collectors;
 @Component
 public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 
-	private final PaymentOutboxJpaRepository paymentOutboxJpaRepository;
-	private final PaymentOutboxDataMapper dataMapper;
+	private final PaymentOutboxJpaRepository jpaRepository;
+	private final PaymentOutboxDataMapper mapper;
 
 	public PaymentOutboxRepositoryImpl(
-			PaymentOutboxJpaRepository paymentOutboxJpaRepository,
-			PaymentOutboxDataMapper dataMapper
+			PaymentOutboxJpaRepository jpaRepository,
+			PaymentOutboxDataMapper mapper
 	) {
-		this.paymentOutboxJpaRepository = paymentOutboxJpaRepository;
-		this.dataMapper = dataMapper;
+		this.jpaRepository = jpaRepository;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public OrderPaymentOutboxMessage save(OrderPaymentOutboxMessage message) {
-		PaymentOutboxEntity savedEntity = this.paymentOutboxJpaRepository.save(dataMapper.messageToEntity(message));
+		PaymentOutboxEntity savedEntity = this.jpaRepository.save(mapper.messageToEntity(message));
 
-		return dataMapper.entityToMessage(savedEntity);
+		return mapper.entityToMessage(savedEntity);
 	}
 
 	@Override
@@ -43,13 +43,13 @@ public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 			OutboxStatus outboxStatus,
 			SagaStatus... sagaStatus
 	) {
-		return Optional.of(this.paymentOutboxJpaRepository.findByTypeAndOutboxStatusAndSagaStatusIn(
+		return Optional.of(this.jpaRepository.findByTypeAndOutboxStatusAndSagaStatusIn(
 						type,
 						outboxStatus,
 						Arrays.asList(sagaStatus)
 				).orElseThrow(() -> new PaymentOutboxNotFoundException("Payment outbox object not found for saga type " + type))
 				.stream()
-				.map(dataMapper::entityToMessage)
+				.map(mapper::entityToMessage)
 				.collect(Collectors.toList()));
 	}
 
@@ -59,8 +59,8 @@ public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 			UUID sagaId,
 			SagaStatus... sagaStatus
 	) {
-		return paymentOutboxJpaRepository.findByTypeAndSagaIdAndSagaStatusIn(type, sagaId, Arrays.asList(sagaStatus))
-				.map(dataMapper::entityToMessage);
+		return jpaRepository.findByTypeAndSagaIdAndSagaStatusIn(type, sagaId, Arrays.asList(sagaStatus))
+				.map(mapper::entityToMessage);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 			OutboxStatus outboxStatus,
 			SagaStatus... sagaStatus
 	) {
-		this.paymentOutboxJpaRepository.deleteByTypeAndOutboxStatusAndSagaStatusIn(
+		this.jpaRepository.deleteByTypeAndOutboxStatusAndSagaStatusIn(
 				type,
 				outboxStatus,
 				Arrays.asList(sagaStatus)

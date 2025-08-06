@@ -17,33 +17,33 @@ import java.util.stream.Collectors;
 @Component
 public class OrderOutboxRepositoryImpl implements OrderOutboxRepository {
 
-	private final OrderOutboxJpaRepository orderOutboxJpaRepository;
-	private final OrderOutboxDataMapper orderOutboxDataMapper;
+	private final OrderOutboxJpaRepository jpaRepository;
+	private final OrderOutboxDataMapper mapper;
 
 	public OrderOutboxRepositoryImpl(
-			OrderOutboxJpaRepository orderOutboxJpaRepository,
-			OrderOutboxDataMapper orderOutboxDataMapper
+			OrderOutboxJpaRepository jpaRepository,
+			OrderOutboxDataMapper mapper
 	) {
-		this.orderOutboxJpaRepository = orderOutboxJpaRepository;
-		this.orderOutboxDataMapper = orderOutboxDataMapper;
+		this.jpaRepository = jpaRepository;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public OrderOutboxMessage save(OrderOutboxMessage orderOutboxMessage) {
-		OrderOutboxEntity entity = this.orderOutboxDataMapper.messageToEntity(orderOutboxMessage);
-		OrderOutboxEntity savedOrderOutboxEntity = this.orderOutboxJpaRepository.save(entity);
+		OrderOutboxEntity entity = this.mapper.messageToEntity(orderOutboxMessage);
+		OrderOutboxEntity savedOrderOutboxEntity = this.jpaRepository.save(entity);
 
-		return this.orderOutboxDataMapper.entityToMessage(savedOrderOutboxEntity);
+		return this.mapper.entityToMessage(savedOrderOutboxEntity);
 	}
 
 	@Override
 	public Optional<List<OrderOutboxMessage>> findByTypeAndOutboxStatus(String type, OutboxStatus outboxStatus) {
-		return Optional.of(this.orderOutboxJpaRepository.findByTypeAndOutboxStatus(
+		return Optional.of(this.jpaRepository.findByTypeAndOutboxStatus(
 						type,
 						outboxStatus
 				).orElseThrow(() -> new OrderOutboxNotFoundException("Approval outbox object not found for saga type " + type))
 				.stream()
-				.map(orderOutboxDataMapper::entityToMessage)
+				.map(mapper::entityToMessage)
 				.collect(Collectors.toList()));
 	}
 
@@ -53,16 +53,16 @@ public class OrderOutboxRepositoryImpl implements OrderOutboxRepository {
 			UUID sagaId,
 			OutboxStatus outboxStatus
 	) {
-		return this.orderOutboxJpaRepository.findByTypeAndSagaIdAndOutboxStatus(
+		return this.jpaRepository.findByTypeAndSagaIdAndOutboxStatus(
 				type,
 				sagaId,
 				outboxStatus
-		).map(orderOutboxDataMapper::entityToMessage);
+		).map(mapper::entityToMessage);
 	}
 
 	@Override
 	public void deleteByTypeAndOutboxStatus(String type, OutboxStatus outboxStatus) {
-		this.orderOutboxJpaRepository.deleteByTypeAndOutboxStatus(type, outboxStatus);
+		this.jpaRepository.deleteByTypeAndOutboxStatus(type, outboxStatus);
 	}
 
 }
